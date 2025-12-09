@@ -11,21 +11,17 @@
             theme: {
                 extend: {
                     colors: {
-                        // NEW Color Palette
-                        'default-dark': '#532A8C', // Deep Purple
-                        'default-light': '#F2F2F2', // Light Grey (Used for column background and default border light)
-
-                        // Group A: Muted Violet
-                        'group-a-dark': '#9D8ABB', 
-                        'group-a-light': '#F2F2F2', 
+                        // Color Groups for Word Association
+                        'group-a-dark': '#20BC9A', // Teal - Inflammation/Gums (Sub-, Gingiv-, -itis)
+                        'group-a-light': '#D4F4ED',
+                        'group-b-dark': '#F37A2F', // Orange - Surgical/Bone (Peri-, Odont-, -ectomy)
+                        'group-b-light': '#FEEED8',
+                        'group-c-dark': '#3E619C', // Deep Blue - Deficiency/Condition (Hypo-, Amel-, -osis)
+                        'group-c-light': '#DCE4F3',
                         
-                        // Group B: Pale Lavender
-                        'group-b-dark': '#C3ACE8', 
-                        'group-b-light': '#F2F2F2', 
-                        
-                        // Group C: Vibrant Green
-                        'group-c-dark': '#7ABF49', 
-                        'group-c-light': '#96BF78', 
+                        // Default fallback colors (based on original purple/green)
+                        'default-dark': '#553787',
+                        'default-light': '#D8D1E6',
                         
                         'column-background': '#F2F2F2',
                     },
@@ -37,14 +33,21 @@
         }
     </script>
     <style>
-        /* Base styles for the card */
+        /* Base styles for the card to ensure it looks right */
         .interactive-card {
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            cursor: default;
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: grab; /* Indicates dragging ability */
         }
-        /* Ensure header is full width and applies only to top corners */
-        .flip-card-header {
-            box-shadow: none;
+        .interactive-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        /* Styling for drag-and-drop feedback */
+        .interactive-card.opacity-50 {
+            cursor: grabbing;
+        }
+        .interactive-card[draggable="true"]:active {
+            cursor: grabbing;
         }
     </style>
 </head>
@@ -54,10 +57,10 @@
         <!-- Header Section -->
         <header class="mb-10 p-6">
             <h1 class="text-3xl md:text-4xl font-extrabold text-gray-800">
-                The Building Blocks of Medical Language - Reference Cards
+                The Building Blocks of Medical Language - Interactive Cards
             </h1>
             <p class="mt-3 text-lg text-gray-600">
-                These cards break down complex medical terms. Associated terms share a color!
+                Drag the cards within their column to practice grouping concepts. Associated terms share a color!
             </p>
         </header>
 
@@ -66,354 +69,443 @@
 
             <!-- Column 1: Prefix -->
             <div class="column-container space-y-6 bg-column-background p-4 rounded-xl shadow-lg">
-                <h2 class="text-2xl font-bold text-gray-700 pb-2">Prefix</h2>
-                <div class="text-gray-600 mb-4">
+                <h2 class="text-2xl font-bold text-gray-700 pb-2 border-b-2 border-gray-400">Prefix</h2>
+                <!-- Instruction Box: Added bg-white, p-3, rounded-xl, and shadow-sm -->
+                <div class="text-gray-600 mb-4 p-3 bg-white rounded-xl shadow-sm">
                     <p class="text-sm italic">Appears at the beginning, describes location, time, number, or intensity.</p>
                 </div>
 
-                <!-- Prefix Card 1: Hypo- (DEFAULT - Position) -->
-                <div class="interactive-card bg-white rounded-3xl shadow-lg border-[20px] border-default-dark overflow-hidden">
-                    <div class="flip-card-header bg-default-dark text-white p-4 text-xl font-bold">
+                <!-- Card 1: Hypo- (DEFAULT - Position) -->
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-1 bg-default-dark" draggable="true">
+                    <div class="flip-card-header bg-default-dark text-white p-3 text-xl font-bold rounded-t-lg">
                         <span>Hypo-</span>
                     </div>
-                    <!-- ADDED rounded-b-2xl for text content -->
-                    <div class="p-4 h-[120px] rounded-b-2xl">
-                        <p class="text-base text-gray-700">
-                            This prefix signifies a position <strong class="text-default-dark">under or below normal</strong>. An example is Hypothermia, which means below normal body temperature.
-                        </p>
+                    <div class="p-4 bg-white text-sm space-y-2 rounded-b-lg">
+                        <p class="text-sm">Meaning: **Under** (or below normal)</p>
+                        <div>
+                            <span class="font-medium text-default-dark">Example Term:</span> Hypothermia
+                            <p class="text-xs mt-1">Definition: below normal body temperature</p>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Prefix Card 2: Pre- (DEFAULT - Time) -->
-                <div class="interactive-card bg-white rounded-3xl shadow-lg border-[20px] border-default-dark overflow-hidden">
-                    <div class="flip-card-header bg-default-dark text-white p-4 text-xl font-bold">
+                <!-- Card 2: Pre- (DEFAULT - Time) -->
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-1 bg-default-dark" draggable="true">
+                    <div class="flip-card-header bg-default-dark text-white p-3 text-xl font-bold rounded-t-lg">
                         <span>Pre-</span>
                     </div>
-                    <!-- ADDED rounded-b-2xl for text content -->
-                    <div class="p-4 h-[120px] rounded-b-2xl">
-                        <p class="text-base text-gray-700">
-                            Used to denote <strong class="text-default-dark">before in time</strong>, terms like Preoperative refer to the time period before a surgical procedure.
-                        </p>
+                    <div class="p-4 bg-white text-sm space-y-2 rounded-b-lg">
+                        <p class="text-sm">Meaning: **Before**</p>
+                        <div>
+                            <span class="font-medium text-default-dark">Example Term:</span> Preoperative
+                            <p class="text-xs mt-1">Definition: before surgery</p>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Prefix Card 3: Peri- (GROUP B - Surgical/Around) -->
-                <div class="interactive-card bg-white rounded-3xl shadow-lg border-[20px] border-group-b-dark overflow-hidden">
-                    <div class="flip-card-header bg-group-b-dark text-white p-4 text-xl font-bold">
+                <!-- Card 3: Peri- (GROUP B - Surgical/Around) -->
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-1 bg-group-b-dark" draggable="true">
+                    <div class="flip-card-header bg-group-b-dark text-white p-3 text-xl font-bold rounded-t-lg">
                         <span>Peri-</span>
                     </div>
-                    <!-- ADDED rounded-b-2xl for text content -->
-                    <div class="p-4 h-[120px] rounded-b-2xl">
-                        <p class="text-base text-gray-700">
-                            This prefix indicates a position <strong class="text-group-b-dark">around or surrounding a structure</strong>, as seen in Pericoronitis, which is inflammation around a tooth crown.
-                        </p>
+                    <div class="p-4 bg-white text-sm space-y-2 rounded-b-lg">
+                        <p class="text-sm">Meaning: **Around, surrounding**</p>
+                        <div>
+                            <span class="font-medium text-group-b-dark">Example Term:</span> Pericoronitis
+                            <p class="text-xs mt-1">Definition: Inflammation around a tooth crown</p>
+                        </div>
                     </div>
                 </div>
                 
-                <!-- Prefix Card 4: Sub- (GROUP A - Inflammation/Gums) -->
-                <div class="interactive-card bg-white rounded-3xl shadow-lg border-[20px] border-group-a-dark overflow-hidden">
-                    <div class="flip-card-header bg-group-a-dark text-white p-4 text-xl font-bold">
+                <!-- Card 4: Sub- (GROUP A - Inflammation/Gums) -->
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-1 bg-group-a-dark" draggable="true">
+                    <div class="flip-card-header bg-group-a-dark text-white p-3 text-xl font-bold rounded-t-lg">
                         <span>Sub-</span>
                     </div>
-                    <!-- ADDED rounded-b-2xl for text content -->
-                    <div class="p-4 h-[120px] rounded-b-2xl">
-                        <p class="text-base text-gray-700">
-                            This term means <strong class="text-group-a-dark">under or below something</strong>, such as in Subgingival, which describes structures or areas located beneath the gumline.
-                        </p>
+                    <div class="p-4 bg-white text-sm space-y-2 rounded-b-lg">
+                        <p class="text-sm">Meaning: **Under, below**</p>
+                        <div>
+                            <span class="font-medium text-group-a-dark">Example Term:</span> Subgingival
+                            <p class="text-xs mt-1">Definition: Beneath the gumline</p>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Prefix Card 5: Intra- (DEFAULT - Position) -->
-                <div class="interactive-card bg-white rounded-3xl shadow-lg border-[20px] border-default-dark overflow-hidden">
-                    <div class="flip-card-header bg-default-dark text-white p-4 text-xl font-bold">
+                <!-- Card 5: Intra- (DEFAULT - Position) -->
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-1 bg-default-dark" draggable="true">
+                    <div class="flip-card-header bg-default-dark text-white p-3 text-xl font-bold rounded-t-lg">
                         <span>Intra-</span>
                     </div>
-                    <!-- ADDED rounded-b-2xl for text content -->
-                    <div class="p-4 h-[120px] rounded-b-2xl">
-                        <p class="text-base text-gray-700">
-                            Used to describe a location <strong class="text-default-dark">within or inside a body cavity</strong>, for example, Intraoral refers to anything located within the mouth.
-                        </p>
+                    <div class="p-4 bg-white text-sm space-y-2 rounded-b-lg">
+                        <p class="text-sm">Meaning: **Within, inside**</p>
+                        <div>
+                            <span class="font-medium text-default-dark">Example Term:</span> Intraoral
+                            <p class="text-xs mt-1">Definition: Within the mouth</p>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Prefix Card 6: Hyper- (DEFAULT - Intensity) -->
-                <div class="interactive-card bg-white rounded-3xl shadow-lg border-[20px] border-default-dark overflow-hidden">
-                    <div class="flip-card-header bg-default-dark text-white p-4 text-xl font-bold">
+                <!-- Card 6: Hyper- (DEFAULT - Intensity) -->
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-1 bg-default-dark" draggable="true">
+                    <div class="flip-card-header bg-default-dark text-white p-3 text-xl font-bold rounded-t-lg">
                         <span>Hyper-</span>
                     </div>
-                    <!-- ADDED rounded-b-2xl for text content -->
-                    <div class="p-4 h-[120px] rounded-b-2xl">
-                        <p class="text-base text-gray-700">
-                            This prefix indicates a state of <strong class="text-default-dark">excessive or above normal activity</strong>, as found in Hyperplasia, the overgrowth of tissue.
-                        </p>
+                    <div class="p-4 bg-white text-sm space-y-2 rounded-b-lg">
+                        <p class="text-sm">Meaning: **Excessive, above normal**</p>
+                        <div>
+                            <span class="font-medium text-default-dark">Example Term:</span> Hyperplasia
+                            <p class="text-xs mt-1">Definition: Overgrowth of tissue</p>
+                        </div>
                     </div>
                 </div>
                 
-                <!-- Prefix Card 7: Hypo- (GROUP C - Deficiency/Condition) -->
-                <div class="interactive-card bg-white rounded-3xl shadow-lg border-[20px] border-group-c-dark overflow-hidden">
-                    <div class="flip-card-header bg-group-c-dark text-white p-4 text-xl font-bold">
+                <!-- Card 7: Hypo- (GROUP C - Deficiency/Condition) -->
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-1 bg-group-c-dark" draggable="true">
+                    <div class="flip-card-header bg-group-c-dark text-white p-3 text-xl font-bold rounded-t-lg">
                         <span>Hypo-</span>
                     </div>
-                    <!-- ADDED rounded-b-2xl for text content -->
-                    <div class="p-4 h-[120px] rounded-b-2xl">
-                        <p class="text-base text-gray-700">
-                            Used in terms indicating <strong class="text-group-c-dark">below normal or deficient quantity</strong>, such as Hypocalcification, which describes insufficient calcium in the enamel.
-                        </p>
+                    <div class="p-4 bg-white text-sm space-y-2 rounded-b-lg">
+                        <p class="text-sm">Meaning: **Below normal, deficient**</p>
+                        <div>
+                            <span class="font-medium text-group-c-dark">Dental Example:</span> Hypocalcification
+                            <p class="text-xs mt-1">Definition: Insufficient calcium in enamel</p>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Prefix Card 8: Dys- (DEFAULT - Abnormal) -->
-                <div class="interactive-card bg-white rounded-3xl shadow-lg border-[20px] border-default-dark overflow-hidden">
-                    <div class="flip-card-header bg-default-dark text-white p-4 text-xl font-bold">
+                <!-- Card 8: Dys- (DEFAULT - Abnormal) -->
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-1 bg-default-dark" draggable="true">
+                    <div class="flip-card-header bg-default-dark text-white p-3 text-xl font-bold rounded-t-lg">
                         <span>Dys-</span>
                     </div>
-                    <!-- ADDED rounded-b-2xl for text content -->
-                    <div class="p-4 h-[120px] rounded-b-2xl">
-                        <p class="text-base text-gray-700">
-                            This prefix denotes something that is <strong class="text-default-dark">difficult or abnormal</strong>, illustrated by Dysphagia, which means difficulty swallowing.
-                        </p>
+                    <div class="p-4 bg-white text-sm space-y-2 rounded-b-lg">
+                        <p class="text-sm">Meaning: **Difficult, abnormal**</p>
+                        <div>
+                            <span class="font-medium text-default-dark">Example Term:</span> Dysphagia
+                            <p class="text-xs mt-1">Definition: Difficulty swallowing</p>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Prefix Card 9: Para- (DEFAULT - Position) -->
-                <div class="interactive-card bg-white rounded-3xl shadow-lg border-[20px] border-default-dark overflow-hidden">
-                    <div class="flip-card-header bg-default-dark text-white p-4 text-xl font-bold">
+                <!-- Card 9: Para- (DEFAULT - Position) -->
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-1 bg-default-dark" draggable="true">
+                    <div class="flip-card-header bg-default-dark text-white p-3 text-xl font-bold rounded-t-lg">
                         <span>Para-</span>
                     </div>
-                    <!-- ADDED rounded-b-2xl for text content -->
-                    <div class="p-4 h-[120px] rounded-b-2xl">
-                        <p class="text-base text-gray-700">
-                            This prefix signifies a position <strong class="text-default-dark">beside or near a structure</strong>, as in Parotid, which refers to a salivary gland region near the ear.
-                        </p>
+                    <div class="p-4 bg-white text-sm space-y-2 rounded-b-lg">
+                        <p class="text-sm">Meaning: **Beside, near**</p>
+                        <div>
+                            <span class="font-medium text-default-dark">Example Term:</span> Parotid
+                            <p class="text-xs mt-1">Definition: Near the ear (salivary gland region)</p>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- Column 2: Root Word -->
             <div class="column-container space-y-6 bg-column-background p-4 rounded-xl shadow-lg">
-                <h2 class="text-2xl font-bold text-gray-700 pb-2">Root Word</h2>
-                <div class="text-gray-600 mb-4">
+                <h2 class="text-2xl font-bold text-gray-700 pb-2 border-b-2 border-gray-400">Root Word</h2>
+                <!-- Instruction Box: Added bg-white, p-3, rounded-xl, and shadow-sm -->
+                <div class="text-gray-600 mb-4 p-3 bg-white rounded-xl shadow-sm">
                     <p class="text-sm italic">The base of the term, usually referring to a body part, structure, or system.</p>
                 </div>
 
                 <!-- Root Card 1: Dent- / Odont- (GROUP B - Surgical/Bone) -->
-                <div class="interactive-card bg-white rounded-3xl shadow-lg border-[20px] border-group-b-dark overflow-hidden">
-                    <div class="flip-card-header bg-group-b-dark text-white p-4 text-xl font-bold">
-                        <span>Dent- / Odont-</span>
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-1 bg-group-b-dark" draggable="true">
+                    <div class="flip-card-header bg-group-b-dark text-white p-3 text-xl font-bold rounded-t-lg">
+                        <span>Dent-/Odont-</span>
                     </div>
-                    <!-- ADDED rounded-b-2xl for text content -->
-                    <div class="p-4 h-[120px] rounded-b-2xl">
-                        <p class="text-base text-gray-700">
-                            This root word <strong class="text-group-b-dark">refers to the tooth</strong>, as seen in terms like Dentition and Orthodontics, which relate to the arrangement and alignment of teeth.
-                        </p>
+                    <div class="p-4 bg-white text-sm space-y-2 rounded-b-lg">
+                        <p class="text-sm">Meaning: **Tooth**</p>
+                        <div>
+                            <span class="font-medium text-group-b-dark">Example Term:</span> Dentition, Orthodontics
+                            <p class="text-xs mt-1">Definition: Arrangement of teeth; tooth alignment</p>
+                        </div>
                     </div>
                 </div>
                 
                 <!-- Root Card 2: Gingiv- (GROUP A - Inflammation/Gums) -->
-                <div class="interactive-card bg-white rounded-3xl shadow-lg border-[20px] border-group-a-dark overflow-hidden">
-                    <div class="flip-card-header bg-group-a-dark text-white p-4 text-xl font-bold">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-1 bg-group-a-dark" draggable="true">
+                    <div class="flip-card-header bg-group-a-dark text-white p-3 text-xl font-bold rounded-t-lg">
                         <span>Gingiv-</span>
                     </div>
-                    <!-- ADDED rounded-b-2xl for text content -->
-                    <div class="p-4 h-[120px] rounded-b-2xl">
-                        <p class="text-base text-gray-700">
-                            This root <strong class="text-group-a-dark">specifically refers to the gums</strong>, and is used in terms such as Gingivitis, which means inflammation of the gums.
-                        </p>
+                    <div class="p-4 bg-white text-sm space-y-2 rounded-b-lg">
+                        <p class="text-sm">Meaning: **Gums**</p>
+                        <div>
+                            <span class="font-medium text-group-a-dark">Example Term:</span> Gingivitis
+                            <p class="text-xs mt-1">Definition: Inflammation of gums</p>
+                        </div>
                     </div>
                 </div>
                 
                 <!-- Root Card 3: Enamel / Amel- (GROUP C - Deficiency/Condition) -->
-                <div class="interactive-card bg-white rounded-3xl shadow-lg border-[20px] border-group-c-dark overflow-hidden">
-                    <div class="flip-card-header bg-group-c-dark text-white p-4 text-xl font-bold">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-1 bg-group-c-dark" draggable="true">
+                    <div class="flip-card-header bg-group-c-dark text-white p-3 text-xl font-bold rounded-t-lg">
                         <span>Enamel / Amel-</span>
                     </div>
-                    <!-- ADDED rounded-b-2xl for text content -->
-                    <div class="p-4 h-[120px] rounded-b-2xl">
-                        <p class="text-base text-gray-700">
-                            This term refers to <strong class="text-group-c-dark">Enamel, which is the hard outer layer of the tooth</strong>. It is used in terms like Hypo-amelogenesis (under-developed enamel).
-                        </p>
+                    <div class="p-4 bg-white text-sm space-y-2 rounded-b-lg">
+                        <p class="text-sm">Meaning: **Enamel**</p>
+                        <div>
+                            <span class="font-medium text-group-c-dark">Example Term:</span> Hypo-amelogenesis
+                            <p class="text-xs mt-1">Definition: Under-developed enamel</p>
+                        </div>
                     </div>
                 </div>
                 
                 <!-- Root Card 4: Pulp- (DEFAULT - Structure) -->
-                <div class="interactive-card bg-white rounded-3xl shadow-lg border-[20px] border-default-dark overflow-hidden">
-                    <div class="flip-card-header bg-default-dark text-white p-4 text-xl font-bold">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-1 bg-default-dark" draggable="true">
+                    <div class="flip-card-header bg-default-dark text-white p-3 text-xl font-bold rounded-t-lg">
                         <span>Pulp-</span>
                     </div>
-                    <!-- ADDED rounded-b-2xl for text content -->
-                    <div class="p-4 h-[120px] rounded-b-2xl">
-                        <p class="text-base text-gray-700">
-                            This root refers to the <strong class="text-default-dark">central, soft tissue of the tooth</strong> known as the dental pulp, as in Pulpitis (inflammation of dental pulp).
-                        </p>
+                    <div class="p-4 bg-white text-sm space-y-2 rounded-b-lg">
+                        <p class="text-sm">Meaning: **Dental pulp**</p>
+                        <div>
+                            <span class="font-medium text-default-dark">Example Term:</span> Pulpitis
+                            <p class="text-xs mt-1">Definition: Inflammation of dental pulp</p>
+                        </div>
                     </div>
                 </div>
                 
                 <!-- Root Card 5: Alveol- (DEFAULT - Structure) -->
-                <div class="interactive-card bg-white rounded-3xl shadow-lg border-[20px] border-default-dark overflow-hidden">
-                    <div class="flip-card-header bg-default-dark text-white p-4 text-xl font-bold">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-1 bg-default-dark" draggable="true">
+                    <div class="flip-card-header bg-default-dark text-white p-3 text-xl font-bold rounded-t-lg">
                         <span>Alveol-</span>
                     </div>
-                    <!-- ADDED rounded-b-2xl for text content -->
-                    <div class="p-4 h-[120px] rounded-b-2xl">
-                        <p class="text-base text-gray-700">
-                            This term refers to a <strong class="text-default-dark">socket or bone cavity</strong>, such as the Alveolar ridge, which is the bone supporting the teeth.
-                        </p>
+                    <div class="p-4 bg-white text-sm space-y-2 rounded-b-lg">
+                        <p class="text-sm">Meaning: **Socket / bone cavity**</p>
+                        <div>
+                            <span class="font-medium text-default-dark">Example Term:</span> Alveolar ridge
+                            <p class="text-xs mt-1">Definition: Bone supporting teeth</p>
+                        </div>
                     </div>
                 </div>
                 
                 <!-- Root Card 6: Or- / Stomat- (DEFAULT - Structure) -->
-                <div class="interactive-card bg-white rounded-3xl shadow-lg border-[20px] border-default-dark overflow-hidden">
-                    <div class="flip-card-header bg-default-dark text-white p-4 text-xl font-bold">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-1 bg-default-dark" draggable="true">
+                    <div class="flip-card-header bg-default-dark text-white p-3 text-xl font-bold rounded-t-lg">
                         <span>Or- / Stomat-</span>
                     </div>
-                    <!-- ADDED rounded-b-2xl for text content -->
-                    <div class="p-4 h-[120px] rounded-b-2xl">
-                        <p class="text-base text-gray-700">
-                            Both of these roots <strong class="text-default-dark">refer to the mouth</strong>, and are used in terms like Stomatitis, which is the inflammation of the mouth.
-                        </p>
+                    <div class="p-4 bg-white text-sm space-y-2 rounded-b-lg">
+                        <p class="text-sm">Meaning: **Mouth**</p>
+                        <div>
+                            <span class="font-medium text-default-dark">Example Term:</span> Oral hygiene, Stomatitis
+                            <p class="text-xs mt-1">Definition: Mouth care; inflammation of the mouth</p>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Root Card 7: Maxill- / Mandibul- (DEFAULT - Structure) -->
-                <div class="interactive-card bg-white rounded-3xl shadow-lg border-[20px] border-default-dark overflow-hidden">
-                    <div class="flip-card-header bg-default-dark text-white p-4 text-xl font-bold">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-1 bg-default-dark" draggable="true">
+                    <div class="flip-card-header bg-default-dark text-white p-3 text-xl font-bold rounded-t-lg">
                         <span>Maxill- / Mandibul-</span>
                     </div>
-                    <!-- ADDED rounded-b-2xl for text content -->
-                    <div class="p-4 h-[120px] rounded-b-2xl">
-                        <p class="text-base text-gray-700">
-                            These roots <strong class="text-default-dark">refer to the jaw bones</strong>. Maxillary arch refers to the upper jaw structure, while Mandibul- relates to the lower jaw.
-                        </p>
+                    <div class="p-4 bg-white text-sm space-y-2 rounded-b-lg">
+                        <p class="text-sm">Meaning: **Jaw**</p>
+                        <div>
+                            <span class="font-medium text-default-dark">Example Term:</span> Maxillary arch, Mandibular nerve
+                            <p class="text-xs mt-1">Definition: Upper / lower jaw structures</p>
+                        </div>
                     </div>
                 </div>
                 
                 <!-- Root Card 8: Cephal- / Cran- (DEFAULT - Structure) -->
-                <div class="interactive-card bg-white rounded-3xl shadow-lg border-[20px] border-default-dark overflow-hidden">
-                    <div class="flip-card-header bg-default-dark text-white p-4 text-xl font-bold">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-1 bg-default-dark" draggable="true">
+                    <div class="flip-card-header bg-default-dark text-white p-3 text-xl font-bold rounded-t-lg">
                         <span>Cephal- / Cran-</span>
                     </div>
-                    <!-- ADDED rounded-b-2xl for text content -->
-                    <div class="p-4 h-[120px] rounded-b-2xl">
-                        <p class="text-base text-gray-700">
-                            These terms <strong class="text-default-dark">refer to the head or skull</strong>, often used in diagnostic terms like Cephalometric analysis (head measurement for orthodontics).
-                        </p>
+                    <div class="p-4 bg-white text-sm space-y-2 rounded-b-lg">
+                        <p class="text-sm">Meaning: **Head / skull**</p>
+                        <div>
+                            <span class="font-medium text-default-dark">Example Term:</span> Cephalometric analysis
+                            <p class="text-xs mt-1">Definition: Head measurement for orthodontics</p>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Root Card 9: Cardi- (DEFAULT - System) -->
-                <div class="interactive-card bg-white rounded-3xl shadow-lg border-[20px] border-default-dark overflow-hidden">
-                    <div class="flip-card-header bg-default-dark text-white p-4 text-xl font-bold">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-1 bg-default-dark" draggable="true">
+                    <div class="flip-card-header bg-default-dark text-white p-3 text-xl font-bold rounded-t-lg">
                         <span>Cardi-</span>
                     </div>
-                    <!-- ADDED rounded-b-2xl for text content -->
-                    <div class="p-4 h-[120px] rounded-b-2xl">
-                        <p class="text-base text-gray-700">
-                            This root word <strong class="text-default-dark">refers to the Heart</strong>, as found in related terms like Cardiology, which is the specialized study of the heart.
-                        </p>
+                    <div class="p-4 bg-white text-sm space-y-2 rounded-b-lg">
+                        <p class="text-sm">Meaning: **Heart**</p>
+                        <div>
+                            <span class="font-medium text-default-dark">Related Terms:</span> Cardiology, Cardiogram
+                            <p class="text-xs mt-1">Definition: Study of the heart; heart measurement record</p>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- Column 3: Suffix -->
             <div class="column-container space-y-6 bg-column-background p-4 rounded-xl shadow-lg">
-                <h2 class="text-2xl font-bold text-gray-700 pb-2">Suffix</h2>
-                <div class="text-gray-600 mb-4">
+                <h2 class="text-2xl font-bold text-gray-700 pb-2 border-b-2 border-gray-400">Suffix</h2>
+                <!-- Instruction Box: Added bg-white, p-3, rounded-xl, and shadow-sm -->
+                <div class="text-gray-600 mb-4 p-3 bg-white rounded-xl shadow-sm">
                     <p class="text-sm italic">Comes at the end, usually describes a condition, disease, or procedure.</p>
                 </div>
 
                 <!-- Suffix Card 1: -itis (GROUP A - Inflammation/Gums) -->
-                <div class="interactive-card bg-white rounded-3xl shadow-lg border-[20px] border-group-a-dark overflow-hidden">
-                    <div class="flip-card-header bg-group-a-dark text-white p-4 text-xl font-bold">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-1 bg-group-a-dark" draggable="true">
+                    <div class="flip-card-header bg-group-a-dark text-white p-3 text-xl font-bold rounded-t-lg">
                         <span>-itis</span>
                     </div>
-                    <!-- ADDED rounded-b-2xl for text content -->
-                    <div class="p-4 h-[120px] rounded-b-2xl">
-                        <p class="text-base text-gray-700">
-                            This suffix <strong class="text-group-a-dark">indicates inflammation of a part</strong>, as seen in the term Gingivitis, which is inflammation of the gums.
-                        </p>
+                    <div class="p-4 bg-white text-sm space-y-2 rounded-b-lg">
+                        <p class="text-sm">Meaning: **Inflammation**</p>
+                        <div>
+                            <span class="font-medium text-group-a-dark">Example:</span> Gingivitis
+                            <p class="text-xs mt-1">Definition: Inflammation of the gums</p>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Suffix Card 2: -ectomy (GROUP B - Surgical/Bone) -->
-                <div class="interactive-card bg-white rounded-3xl shadow-lg border-[20px] border-group-b-dark overflow-hidden">
-                    <div class="flip-card-header bg-group-b-dark text-white p-4 text-xl font-bold">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-1 bg-group-b-dark" draggable="true">
+                    <div class="flip-card-header bg-group-b-dark text-white p-3 text-xl font-bold rounded-t-lg">
                         <span>-ectomy</span>
                     </div>
-                    <!-- ADDED rounded-b-2xl for text content -->
-                    <div class="p-4 h-[120px] rounded-b-2xl">
-                        <p class="text-base text-gray-700">
-                            This suffix <strong class="text-group-b-dark">denotes surgical removal of a body part</strong>, such as in Odontectomy, which is the surgical removal of a tooth.
-                        </p>
+                    <div class="p-4 bg-white text-sm space-y-2 rounded-b-lg">
+                        <p class="text-sm">Meaning: **Surgical removal**</p>
+                        <div>
+                            <span class="font-medium text-group-b-dark">Example:</span> Odontectomy
+                            <p class="text-xs mt-1">Definition: Removal of a tooth</p>
+                        </div>
                     </div>
                 </div>
 
                  <!-- Suffix Card 3: -algia / -dynia (DEFAULT - Condition) -->
-                 <div class="interactive-card bg-white rounded-3xl shadow-lg border-[20px] border-default-dark overflow-hidden">
-                    <div class="flip-card-header bg-default-dark text-white p-4 text-xl font-bold">
+                 <div class="interactive-card rounded-xl shadow-md overflow-hidden p-1 bg-default-dark" draggable="true">
+                    <div class="flip-card-header bg-default-dark text-white p-3 text-xl font-bold rounded-t-lg">
                         <span>-algia / -dynia</span>
                     </div>
-                    <!-- ADDED rounded-b-2xl for text content -->
-                    <div class="p-4 h-[120px] rounded-b-2xl">
-                        <p class="text-base text-gray-700">
-                            These suffixes are <strong class="text-default-dark">used to describe the sensation of pain</strong>, as demonstrated by Odontalgia, the medical term for a toothache.
-                        </p>
+                    <div class="p-4 bg-white text-sm space-y-2 rounded-b-lg">
+                        <p class="text-sm">Meaning: **Pain**</p>
+                        <div>
+                            <span class="font-medium text-default-dark">Example:</span> Odontalgia
+                            <p class="text-xs mt-1">Definition: Toothache</p>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Suffix Card 4: -osis (GROUP C - Deficiency/Condition) -->
-                <div class="interactive-card bg-white rounded-3xl shadow-lg border-[20px] border-group-c-dark overflow-hidden">
-                    <div class="flip-card-header bg-group-c-dark text-white p-4 text-xl font-bold">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-1 bg-group-c-dark" draggable="true">
+                    <div class="flip-card-header bg-group-c-dark text-white p-3 text-xl font-bold rounded-t-lg">
                         <span>-osis</span>
                     </div>
-                    <!-- ADDED rounded-b-2xl for text content -->
-                    <div class="p-4 h-[120px] rounded-b-2xl">
-                        <p class="text-base text-gray-700">
-                            This suffix <strong class="text-group-c-dark">indicates a condition, usually abnormal</strong>, such as Halitosis, which is the medical term for bad breath.
-                        </p>
+                    <div class="p-4 bg-white text-sm space-y-2 rounded-b-lg">
+                        <p class="text-sm">Meaning: **Condition, usually abnormal**</p>
+                        <div>
+                            <span class="font-medium text-group-c-dark">Example:</span> Halitosis
+                            <p class="text-xs mt-1">Definition: Bad breath condition</p>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Suffix Card 5: -plasty (DEFAULT - Procedure) -->
-                <div class="interactive-card bg-white rounded-3xl shadow-lg border-[20px] border-default-dark overflow-hidden">
-                    <div class="flip-card-header bg-default-dark text-white p-4 text-xl font-bold">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-1 bg-default-dark" draggable="true">
+                    <div class="flip-card-header bg-default-dark text-white p-3 text-xl font-bold rounded-t-lg">
                         <span>-plasty</span>
                     </div>
-                    <!-- ADDED rounded-b-2xl for text content -->
-                    <div class="p-4 h-[120px] rounded-b-2xl">
-                        <p class="text-base text-gray-700">
-                            This suffix <strong class="text-default-dark">refers to surgical repair or reshaping</strong>, for instance, Gingivoplasty is the surgical reshaping of gum tissue.
-                        </p>
+                    <div class="p-4 bg-white text-sm space-y-2 rounded-b-lg">
+                        <p class="text-sm">Meaning: **Surgical repair**</p>
+                        <div>
+                            <span class="font-medium text-default-dark">Example:</span> Gingivoplasty
+                            <p class="text-xs mt-1">Definition: Reshaping of gum tissue</p>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Suffix Card 6: -logy / -logist (DEFAULT - Study) -->
-                <div class="interactive-card bg-white rounded-3xl shadow-lg border-[20px] border-default-dark overflow-hidden">
-                    <div class="flip-card-header bg-default-dark text-white p-4 text-xl font-bold">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-1 bg-default-dark" draggable="true">
+                    <div class="flip-card-header bg-default-dark text-white p-3 text-xl font-bold rounded-t-lg">
                         <span>-logy / -logist</span>
                     </div>
-                    <!-- ADDED rounded-b-2xl for text content -->
-                    <div class="p-4 h-[120px] rounded-b-2xl">
-                        <p class="text-base text-gray-700">
-                            These suffixes <strong class="text-default-dark">describe a field of study or a specialist</strong>, such as Periodontologist (a specialist in gum diseases).
-                        </p>
+                    <div class="p-4 bg-white text-sm space-y-2 rounded-b-lg">
+                        <p class="text-sm">Meaning: **Study / specialist**</p>
+                        <div>
+                            <span class="font-medium text-default-dark">Example:</span> Periodontologist
+                            <p class="text-xs mt-1">Definition: Specialist in gum diseases</p>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Suffix Card 7: -gram / -graph (DEFAULT - Procedure) -->
-                <div class="interactive-card bg-white rounded-3xl shadow-lg border-[20px] border-default-dark overflow-hidden">
-                    <div class="flip-card-header bg-default-dark text-white p-4 text-xl font-bold">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-1 bg-default-dark" draggable="true">
+                    <div class="flip-card-header bg-default-dark text-white p-3 text-xl font-bold rounded-t-lg">
                         <span>-gram / -graph</span>
                     </div>
-                    <!-- ADDED rounded-b-2xl for text content -->
-                    <div class="p-4 h-[120px] rounded-b-2xl">
-                        <p class="text-base text-gray-700">
-                            These terms <strong class="text-default-dark">refers to a record or the instrument used to record data</strong>, for example, a Radiograph is the image record produced by X-rays.
-                        </p>
+                    <div class="p-4 bg-white text-sm space-y-2 rounded-b-lg">
+                        <p class="text-sm">Meaning: **Record / instrument**</p>
+                        <div>
+                            <span class="font-medium text-default-dark">Example:</span> Radiograph
+                            <p class="text-xs mt-1">Definition: Image produced by X-rays</p>
+                        </div>
                     </div>
                 </div>
 
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const columns = document.querySelectorAll('.column-container');
+            let dragged = null;
+
+            // Initialize all cards as draggable
+            document.querySelectorAll('.interactive-card').forEach(card => {
+                card.addEventListener('dragstart', (e) => {
+                    dragged = card;
+                    e.dataTransfer.effectAllowed = 'move';
+                    // Add visual feedback when dragging starts
+                    card.classList.add('opacity-50', 'border-dashed', 'border-4', 'border-gray-500');
+                });
+
+                card.addEventListener('dragend', () => {
+                    // Remove visual feedback when dragging ends
+                    dragged.classList.remove('opacity-50', 'border-dashed', 'border-4', 'border-gray-500');
+                    dragged = null;
+                });
+            });
+
+            // Utility function to find the element to insert the dragged element after
+            function getDragAfterElement(container, y) {
+                // Selects all cards in the container that are NOT the one being dragged (opacity-50)
+                const draggableElements = [...container.querySelectorAll('.interactive-card:not(.opacity-50)')];
+
+                // Finds the element closest to the current cursor position (y)
+                return draggableElements.reduce((closest, child) => {
+                    const box = child.getBoundingClientRect();
+                    const offset = y - box.top - box.height / 2; // Calculate distance from the center of the child card
+
+                    // If the cursor is above the center of the child card, and this is the closest element found so far
+                    if (offset < 0 && offset > closest.offset) {
+                        return { offset: offset, element: child };
+                    } else {
+                        return closest;
+                    }
+                }, { offset: -Number.NEGATIVE_INFINITY }).element; // Initialize with a very negative offset
+            }
+
+            // Add drag handling to columns
+            columns.forEach(column => {
+                column.addEventListener('dragover', e => {
+                    e.preventDefault(); // Allows drop
+                    const afterElement = getDragAfterElement(column, e.clientY);
+                    const draggable = document.querySelector('.interactive-card.opacity-50');
+
+                    if (draggable) {
+                        if (afterElement == null) {
+                            // If no element is found below, append to the end of the container
+                            column.appendChild(draggable);
+                        } else {
+                            // Insert the dragged element before the determined 'afterElement'
+                            column.insertBefore(draggable, afterElement);
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
