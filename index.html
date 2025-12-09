@@ -37,6 +37,9 @@
         .interactive-card {
             transition: transform 0.2s, box-shadow 0.2s;
             cursor: grab; /* Indicates dragging ability */
+            /* Ensure content fits within the fixed height */
+            display: flex;
+            flex-direction: column;
         }
         .interactive-card:hover {
             transform: translateY(-2px);
@@ -48,6 +51,12 @@
         }
         .interactive-card[draggable="true"]:active {
             cursor: grabbing;
+        }
+
+        /* Ensure the white content area takes up remaining space and is scrollable if needed */
+        .card-content {
+            flex-grow: 1;
+            overflow-y: auto; 
         }
     </style>
 </head>
@@ -70,18 +79,18 @@
             <!-- Column 1: Prefix -->
             <div class="column-container space-y-6 bg-column-background p-4 rounded-xl shadow-lg">
                 <h2 class="text-2xl font-bold text-gray-700 pb-2 border-b-2 border-gray-400">Prefix</h2>
-                <!-- Instruction Box: Added bg-white, p-3, rounded-xl, and shadow-sm -->
                 <div class="text-gray-600 mb-4 p-3 bg-white rounded-xl shadow-sm">
                     <p class="text-sm italic">Appears at the beginning, describes location, time, number, or intensity.</p>
                 </div>
 
                 <!-- Card 1: Hypo- (DEFAULT - Position) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-1 bg-default-dark" draggable="true">
-                    <div class="flip-card-header bg-default-dark text-white p-3 text-xl font-bold rounded-t-lg">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-4 bg-default-dark h-48" draggable="true">
+                    <!-- Updated py-2 to py-1 and text-lg to text-xl -->
+                    <div class="flip-card-header bg-default-dark text-white px-3 py-1 text-xl font-bold rounded-t-lg">
                         <span>Hypo-</span>
                     </div>
-                    <div class="p-4 bg-white text-sm space-y-2 rounded-b-lg">
-                        <p class="text-sm">Meaning: **Under** (or below normal)</p>
+                    <div class="card-content p-4 bg-white text-sm space-y-2 rounded-b-lg rounded-t-xl">
+                        <p class="text-sm">Meaning: <strong>Under</strong> (or below normal)</p>
                         <div>
                             <span class="font-medium text-default-dark">Example Term:</span> Hypothermia
                             <p class="text-xs mt-1">Definition: below normal body temperature</p>
@@ -90,12 +99,13 @@
                 </div>
 
                 <!-- Card 2: Pre- (DEFAULT - Time) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-1 bg-default-dark" draggable="true">
-                    <div class="flip-card-header bg-default-dark text-white p-3 text-xl font-bold rounded-t-lg">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-4 bg-default-dark h-48" draggable="true">
+                    <!-- Updated py-2 to py-1 and text-lg to text-xl -->
+                    <div class="flip-card-header bg-default-dark text-white px-3 py-1 text-xl font-bold rounded-t-lg">
                         <span>Pre-</span>
                     </div>
-                    <div class="p-4 bg-white text-sm space-y-2 rounded-b-lg">
-                        <p class="text-sm">Meaning: **Before**</p>
+                    <div class="card-content p-4 bg-white text-sm space-y-2 rounded-b-lg rounded-t-xl">
+                        <p class="text-sm">Meaning: <strong>Before</strong></p>
                         <div>
                             <span class="font-medium text-default-dark">Example Term:</span> Preoperative
                             <p class="text-xs mt-1">Definition: before surgery</p>
@@ -104,12 +114,13 @@
                 </div>
 
                 <!-- Card 3: Peri- (GROUP B - Surgical/Around) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-1 bg-group-b-dark" draggable="true">
-                    <div class="flip-card-header bg-group-b-dark text-white p-3 text-xl font-bold rounded-t-lg">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-4 bg-group-b-dark h-48" draggable="true">
+                    <!-- Updated py-2 to py-1 and text-lg to text-xl -->
+                    <div class="flip-card-header bg-group-b-dark text-white px-3 py-1 text-xl font-bold rounded-t-lg">
                         <span>Peri-</span>
                     </div>
-                    <div class="p-4 bg-white text-sm space-y-2 rounded-b-lg">
-                        <p class="text-sm">Meaning: **Around, surrounding**</p>
+                    <div class="card-content p-4 bg-white text-sm space-y-2 rounded-b-lg rounded-t-xl">
+                        <p class="text-sm">Meaning: <strong>Around, surrounding</strong></p>
                         <div>
                             <span class="font-medium text-group-b-dark">Example Term:</span> Pericoronitis
                             <p class="text-xs mt-1">Definition: Inflammation around a tooth crown</p>
@@ -118,12 +129,13 @@
                 </div>
                 
                 <!-- Card 4: Sub- (GROUP A - Inflammation/Gums) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-1 bg-group-a-dark" draggable="true">
-                    <div class="flip-card-header bg-group-a-dark text-white p-3 text-xl font-bold rounded-t-lg">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-4 bg-group-a-dark h-48" draggable="true">
+                    <!-- Updated py-2 to py-1 and text-lg to text-xl -->
+                    <div class="flip-card-header bg-group-a-dark text-white px-3 py-1 text-xl font-bold rounded-t-lg">
                         <span>Sub-</span>
                     </div>
-                    <div class="p-4 bg-white text-sm space-y-2 rounded-b-lg">
-                        <p class="text-sm">Meaning: **Under, below**</p>
+                    <div class="card-content p-4 bg-white text-sm space-y-2 rounded-b-lg rounded-t-xl">
+                        <p class="text-sm">Meaning: <strong>Under, below</strong></p>
                         <div>
                             <span class="font-medium text-group-a-dark">Example Term:</span> Subgingival
                             <p class="text-xs mt-1">Definition: Beneath the gumline</p>
@@ -132,12 +144,13 @@
                 </div>
 
                 <!-- Card 5: Intra- (DEFAULT - Position) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-1 bg-default-dark" draggable="true">
-                    <div class="flip-card-header bg-default-dark text-white p-3 text-xl font-bold rounded-t-lg">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-4 bg-default-dark h-48" draggable="true">
+                    <!-- Updated py-2 to py-1 and text-lg to text-xl -->
+                    <div class="flip-card-header bg-default-dark text-white px-3 py-1 text-xl font-bold rounded-t-lg">
                         <span>Intra-</span>
                     </div>
-                    <div class="p-4 bg-white text-sm space-y-2 rounded-b-lg">
-                        <p class="text-sm">Meaning: **Within, inside**</p>
+                    <div class="card-content p-4 bg-white text-sm space-y-2 rounded-b-lg rounded-t-xl">
+                        <p class="text-sm">Meaning: <strong>Within, inside</strong></p>
                         <div>
                             <span class="font-medium text-default-dark">Example Term:</span> Intraoral
                             <p class="text-xs mt-1">Definition: Within the mouth</p>
@@ -146,12 +159,13 @@
                 </div>
 
                 <!-- Card 6: Hyper- (DEFAULT - Intensity) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-1 bg-default-dark" draggable="true">
-                    <div class="flip-card-header bg-default-dark text-white p-3 text-xl font-bold rounded-t-lg">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-4 bg-default-dark h-48" draggable="true">
+                    <!-- Updated py-2 to py-1 and text-lg to text-xl -->
+                    <div class="flip-card-header bg-default-dark text-white px-3 py-1 text-xl font-bold rounded-t-lg">
                         <span>Hyper-</span>
                     </div>
-                    <div class="p-4 bg-white text-sm space-y-2 rounded-b-lg">
-                        <p class="text-sm">Meaning: **Excessive, above normal**</p>
+                    <div class="card-content p-4 bg-white text-sm space-y-2 rounded-b-lg rounded-t-xl">
+                        <p class="text-sm">Meaning: <strong>Excessive, above normal</strong></p>
                         <div>
                             <span class="font-medium text-default-dark">Example Term:</span> Hyperplasia
                             <p class="text-xs mt-1">Definition: Overgrowth of tissue</p>
@@ -160,12 +174,13 @@
                 </div>
                 
                 <!-- Card 7: Hypo- (GROUP C - Deficiency/Condition) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-1 bg-group-c-dark" draggable="true">
-                    <div class="flip-card-header bg-group-c-dark text-white p-3 text-xl font-bold rounded-t-lg">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-4 bg-group-c-dark h-48" draggable="true">
+                    <!-- Updated py-2 to py-1 and text-lg to text-xl -->
+                    <div class="flip-card-header bg-group-c-dark text-white px-3 py-1 text-xl font-bold rounded-t-lg">
                         <span>Hypo-</span>
                     </div>
-                    <div class="p-4 bg-white text-sm space-y-2 rounded-b-lg">
-                        <p class="text-sm">Meaning: **Below normal, deficient**</p>
+                    <div class="card-content p-4 bg-white text-sm space-y-2 rounded-b-lg rounded-t-xl">
+                        <p class="text-sm">Meaning: <strong>Below normal, deficient</strong></p>
                         <div>
                             <span class="font-medium text-group-c-dark">Dental Example:</span> Hypocalcification
                             <p class="text-xs mt-1">Definition: Insufficient calcium in enamel</p>
@@ -174,12 +189,13 @@
                 </div>
 
                 <!-- Card 8: Dys- (DEFAULT - Abnormal) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-1 bg-default-dark" draggable="true">
-                    <div class="flip-card-header bg-default-dark text-white p-3 text-xl font-bold rounded-t-lg">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-4 bg-default-dark h-48" draggable="true">
+                    <!-- Updated py-2 to py-1 and text-lg to text-xl -->
+                    <div class="flip-card-header bg-default-dark text-white px-3 py-1 text-xl font-bold rounded-t-lg">
                         <span>Dys-</span>
                     </div>
-                    <div class="p-4 bg-white text-sm space-y-2 rounded-b-lg">
-                        <p class="text-sm">Meaning: **Difficult, abnormal**</p>
+                    <div class="card-content p-4 bg-white text-sm space-y-2 rounded-b-lg rounded-t-xl">
+                        <p class="text-sm">Meaning: <strong>Difficult, abnormal</strong></p>
                         <div>
                             <span class="font-medium text-default-dark">Example Term:</span> Dysphagia
                             <p class="text-xs mt-1">Definition: Difficulty swallowing</p>
@@ -188,12 +204,13 @@
                 </div>
 
                 <!-- Card 9: Para- (DEFAULT - Position) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-1 bg-default-dark" draggable="true">
-                    <div class="flip-card-header bg-default-dark text-white p-3 text-xl font-bold rounded-t-lg">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-4 bg-default-dark h-48" draggable="true">
+                    <!-- Updated py-2 to py-1 and text-lg to text-xl -->
+                    <div class="flip-card-header bg-default-dark text-white px-3 py-1 text-xl font-bold rounded-t-lg">
                         <span>Para-</span>
                     </div>
-                    <div class="p-4 bg-white text-sm space-y-2 rounded-b-lg">
-                        <p class="text-sm">Meaning: **Beside, near**</p>
+                    <div class="card-content p-4 bg-white text-sm space-y-2 rounded-b-lg rounded-t-xl">
+                        <p class="text-sm">Meaning: <strong>Beside, near</strong></p>
                         <div>
                             <span class="font-medium text-default-dark">Example Term:</span> Parotid
                             <p class="text-xs mt-1">Definition: Near the ear (salivary gland region)</p>
@@ -205,18 +222,18 @@
             <!-- Column 2: Root Word -->
             <div class="column-container space-y-6 bg-column-background p-4 rounded-xl shadow-lg">
                 <h2 class="text-2xl font-bold text-gray-700 pb-2 border-b-2 border-gray-400">Root Word</h2>
-                <!-- Instruction Box: Added bg-white, p-3, rounded-xl, and shadow-sm -->
                 <div class="text-gray-600 mb-4 p-3 bg-white rounded-xl shadow-sm">
                     <p class="text-sm italic">The base of the term, usually referring to a body part, structure, or system.</p>
                 </div>
 
                 <!-- Root Card 1: Dent- / Odont- (GROUP B - Surgical/Bone) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-1 bg-group-b-dark" draggable="true">
-                    <div class="flip-card-header bg-group-b-dark text-white p-3 text-xl font-bold rounded-t-lg">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-4 bg-group-b-dark h-48" draggable="true">
+                    <!-- Updated py-2 to py-1 and text-lg to text-xl -->
+                    <div class="flip-card-header bg-group-b-dark text-white px-3 py-1 text-xl font-bold rounded-t-lg">
                         <span>Dent-/Odont-</span>
                     </div>
-                    <div class="p-4 bg-white text-sm space-y-2 rounded-b-lg">
-                        <p class="text-sm">Meaning: **Tooth**</p>
+                    <div class="card-content p-4 bg-white text-sm space-y-2 rounded-b-lg rounded-t-xl">
+                        <p class="text-sm">Meaning: <strong>Tooth</strong></p>
                         <div>
                             <span class="font-medium text-group-b-dark">Example Term:</span> Dentition, Orthodontics
                             <p class="text-xs mt-1">Definition: Arrangement of teeth; tooth alignment</p>
@@ -225,12 +242,13 @@
                 </div>
                 
                 <!-- Root Card 2: Gingiv- (GROUP A - Inflammation/Gums) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-1 bg-group-a-dark" draggable="true">
-                    <div class="flip-card-header bg-group-a-dark text-white p-3 text-xl font-bold rounded-t-lg">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-4 bg-group-a-dark h-48" draggable="true">
+                    <!-- Updated py-2 to py-1 and text-lg to text-xl -->
+                    <div class="flip-card-header bg-group-a-dark text-white px-3 py-1 text-xl font-bold rounded-t-lg">
                         <span>Gingiv-</span>
                     </div>
-                    <div class="p-4 bg-white text-sm space-y-2 rounded-b-lg">
-                        <p class="text-sm">Meaning: **Gums**</p>
+                    <div class="card-content p-4 bg-white text-sm space-y-2 rounded-b-lg rounded-t-xl">
+                        <p class="text-sm">Meaning: <strong>Gums</strong></p>
                         <div>
                             <span class="font-medium text-group-a-dark">Example Term:</span> Gingivitis
                             <p class="text-xs mt-1">Definition: Inflammation of gums</p>
@@ -239,12 +257,13 @@
                 </div>
                 
                 <!-- Root Card 3: Enamel / Amel- (GROUP C - Deficiency/Condition) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-1 bg-group-c-dark" draggable="true">
-                    <div class="flip-card-header bg-group-c-dark text-white p-3 text-xl font-bold rounded-t-lg">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-4 bg-group-c-dark h-48" draggable="true">
+                    <!-- Updated py-2 to py-1 and text-lg to text-xl -->
+                    <div class="flip-card-header bg-group-c-dark text-white px-3 py-1 text-xl font-bold rounded-t-lg">
                         <span>Enamel / Amel-</span>
                     </div>
-                    <div class="p-4 bg-white text-sm space-y-2 rounded-b-lg">
-                        <p class="text-sm">Meaning: **Enamel**</p>
+                    <div class="card-content p-4 bg-white text-sm space-y-2 rounded-b-lg rounded-t-xl">
+                        <p class="text-sm">Meaning: <strong>Enamel</strong></p>
                         <div>
                             <span class="font-medium text-group-c-dark">Example Term:</span> Hypo-amelogenesis
                             <p class="text-xs mt-1">Definition: Under-developed enamel</p>
@@ -253,12 +272,13 @@
                 </div>
                 
                 <!-- Root Card 4: Pulp- (DEFAULT - Structure) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-1 bg-default-dark" draggable="true">
-                    <div class="flip-card-header bg-default-dark text-white p-3 text-xl font-bold rounded-t-lg">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-4 bg-default-dark h-48" draggable="true">
+                    <!-- Updated py-2 to py-1 and text-lg to text-xl -->
+                    <div class="flip-card-header bg-default-dark text-white px-3 py-1 text-xl font-bold rounded-t-lg">
                         <span>Pulp-</span>
                     </div>
-                    <div class="p-4 bg-white text-sm space-y-2 rounded-b-lg">
-                        <p class="text-sm">Meaning: **Dental pulp**</p>
+                    <div class="card-content p-4 bg-white text-sm space-y-2 rounded-b-lg rounded-t-xl">
+                        <p class="text-sm">Meaning: <strong>Dental pulp</strong></p>
                         <div>
                             <span class="font-medium text-default-dark">Example Term:</span> Pulpitis
                             <p class="text-xs mt-1">Definition: Inflammation of dental pulp</p>
@@ -267,12 +287,13 @@
                 </div>
                 
                 <!-- Root Card 5: Alveol- (DEFAULT - Structure) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-1 bg-default-dark" draggable="true">
-                    <div class="flip-card-header bg-default-dark text-white p-3 text-xl font-bold rounded-t-lg">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-4 bg-default-dark h-48" draggable="true">
+                    <!-- Updated py-2 to py-1 and text-lg to text-xl -->
+                    <div class="flip-card-header bg-default-dark text-white px-3 py-1 text-xl font-bold rounded-t-lg">
                         <span>Alveol-</span>
                     </div>
-                    <div class="p-4 bg-white text-sm space-y-2 rounded-b-lg">
-                        <p class="text-sm">Meaning: **Socket / bone cavity**</p>
+                    <div class="card-content p-4 bg-white text-sm space-y-2 rounded-b-lg rounded-t-xl">
+                        <p class="text-sm">Meaning: <strong>Socket / bone cavity</strong></p>
                         <div>
                             <span class="font-medium text-default-dark">Example Term:</span> Alveolar ridge
                             <p class="text-xs mt-1">Definition: Bone supporting teeth</p>
@@ -281,12 +302,13 @@
                 </div>
                 
                 <!-- Root Card 6: Or- / Stomat- (DEFAULT - Structure) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-1 bg-default-dark" draggable="true">
-                    <div class="flip-card-header bg-default-dark text-white p-3 text-xl font-bold rounded-t-lg">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-4 bg-default-dark h-48" draggable="true">
+                    <!-- Updated py-2 to py-1 and text-lg to text-xl -->
+                    <div class="flip-card-header bg-default-dark text-white px-3 py-1 text-xl font-bold rounded-t-lg">
                         <span>Or- / Stomat-</span>
                     </div>
-                    <div class="p-4 bg-white text-sm space-y-2 rounded-b-lg">
-                        <p class="text-sm">Meaning: **Mouth**</p>
+                    <div class="card-content p-4 bg-white text-sm space-y-2 rounded-b-lg rounded-t-xl">
+                        <p class="text-sm">Meaning: <strong>Mouth</strong></p>
                         <div>
                             <span class="font-medium text-default-dark">Example Term:</span> Oral hygiene, Stomatitis
                             <p class="text-xs mt-1">Definition: Mouth care; inflammation of the mouth</p>
@@ -295,12 +317,13 @@
                 </div>
 
                 <!-- Root Card 7: Maxill- / Mandibul- (DEFAULT - Structure) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-1 bg-default-dark" draggable="true">
-                    <div class="flip-card-header bg-default-dark text-white p-3 text-xl font-bold rounded-t-lg">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-4 bg-default-dark h-48" draggable="true">
+                    <!-- Updated py-2 to py-1 and text-lg to text-xl -->
+                    <div class="flip-card-header bg-default-dark text-white px-3 py-1 text-xl font-bold rounded-t-lg">
                         <span>Maxill- / Mandibul-</span>
                     </div>
-                    <div class="p-4 bg-white text-sm space-y-2 rounded-b-lg">
-                        <p class="text-sm">Meaning: **Jaw**</p>
+                    <div class="card-content p-4 bg-white text-sm space-y-2 rounded-b-lg rounded-t-xl">
+                        <p class="text-sm">Meaning: <strong>Jaw</strong></p>
                         <div>
                             <span class="font-medium text-default-dark">Example Term:</span> Maxillary arch, Mandibular nerve
                             <p class="text-xs mt-1">Definition: Upper / lower jaw structures</p>
@@ -309,12 +332,13 @@
                 </div>
                 
                 <!-- Root Card 8: Cephal- / Cran- (DEFAULT - Structure) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-1 bg-default-dark" draggable="true">
-                    <div class="flip-card-header bg-default-dark text-white p-3 text-xl font-bold rounded-t-lg">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-4 bg-default-dark h-48" draggable="true">
+                    <!-- Updated py-2 to py-1 and text-lg to text-xl -->
+                    <div class="flip-card-header bg-default-dark text-white px-3 py-1 text-xl font-bold rounded-t-lg">
                         <span>Cephal- / Cran-</span>
                     </div>
-                    <div class="p-4 bg-white text-sm space-y-2 rounded-b-lg">
-                        <p class="text-sm">Meaning: **Head / skull**</p>
+                    <div class="card-content p-4 bg-white text-sm space-y-2 rounded-b-lg rounded-t-xl">
+                        <p class="text-sm">Meaning: <strong>Head / skull</strong></p>
                         <div>
                             <span class="font-medium text-default-dark">Example Term:</span> Cephalometric analysis
                             <p class="text-xs mt-1">Definition: Head measurement for orthodontics</p>
@@ -323,12 +347,13 @@
                 </div>
 
                 <!-- Root Card 9: Cardi- (DEFAULT - System) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-1 bg-default-dark" draggable="true">
-                    <div class="flip-card-header bg-default-dark text-white p-3 text-xl font-bold rounded-t-lg">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-4 bg-default-dark h-48" draggable="true">
+                    <!-- Updated py-2 to py-1 and text-lg to text-xl -->
+                    <div class="flip-card-header bg-default-dark text-white px-3 py-1 text-xl font-bold rounded-t-lg">
                         <span>Cardi-</span>
                     </div>
-                    <div class="p-4 bg-white text-sm space-y-2 rounded-b-lg">
-                        <p class="text-sm">Meaning: **Heart**</p>
+                    <div class="card-content p-4 bg-white text-sm space-y-2 rounded-b-lg rounded-t-xl">
+                        <p class="text-sm">Meaning: <strong>Heart</strong></p>
                         <div>
                             <span class="font-medium text-default-dark">Related Terms:</span> Cardiology, Cardiogram
                             <p class="text-xs mt-1">Definition: Study of the heart; heart measurement record</p>
@@ -340,18 +365,18 @@
             <!-- Column 3: Suffix -->
             <div class="column-container space-y-6 bg-column-background p-4 rounded-xl shadow-lg">
                 <h2 class="text-2xl font-bold text-gray-700 pb-2 border-b-2 border-gray-400">Suffix</h2>
-                <!-- Instruction Box: Added bg-white, p-3, rounded-xl, and shadow-sm -->
                 <div class="text-gray-600 mb-4 p-3 bg-white rounded-xl shadow-sm">
                     <p class="text-sm italic">Comes at the end, usually describes a condition, disease, or procedure.</p>
                 </div>
 
                 <!-- Suffix Card 1: -itis (GROUP A - Inflammation/Gums) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-1 bg-group-a-dark" draggable="true">
-                    <div class="flip-card-header bg-group-a-dark text-white p-3 text-xl font-bold rounded-t-lg">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-4 bg-group-a-dark h-48" draggable="true">
+                    <!-- Updated py-2 to py-1 and text-lg to text-xl -->
+                    <div class="flip-card-header bg-group-a-dark text-white px-3 py-1 text-xl font-bold rounded-t-lg">
                         <span>-itis</span>
                     </div>
-                    <div class="p-4 bg-white text-sm space-y-2 rounded-b-lg">
-                        <p class="text-sm">Meaning: **Inflammation**</p>
+                    <div class="card-content p-4 bg-white text-sm space-y-2 rounded-b-lg rounded-t-xl">
+                        <p class="text-sm">Meaning: <strong>Inflammation</strong></p>
                         <div>
                             <span class="font-medium text-group-a-dark">Example:</span> Gingivitis
                             <p class="text-xs mt-1">Definition: Inflammation of the gums</p>
@@ -360,12 +385,13 @@
                 </div>
 
                 <!-- Suffix Card 2: -ectomy (GROUP B - Surgical/Bone) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-1 bg-group-b-dark" draggable="true">
-                    <div class="flip-card-header bg-group-b-dark text-white p-3 text-xl font-bold rounded-t-lg">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-4 bg-group-b-dark h-48" draggable="true">
+                    <!-- Updated py-2 to py-1 and text-lg to text-xl -->
+                    <div class="flip-card-header bg-group-b-dark text-white px-3 py-1 text-xl font-bold rounded-t-lg">
                         <span>-ectomy</span>
                     </div>
-                    <div class="p-4 bg-white text-sm space-y-2 rounded-b-lg">
-                        <p class="text-sm">Meaning: **Surgical removal**</p>
+                    <div class="card-content p-4 bg-white text-sm space-y-2 rounded-b-lg rounded-t-xl">
+                        <p class="text-sm">Meaning: <strong>Surgical removal</strong></p>
                         <div>
                             <span class="font-medium text-group-b-dark">Example:</span> Odontectomy
                             <p class="text-xs mt-1">Definition: Removal of a tooth</p>
@@ -374,12 +400,13 @@
                 </div>
 
                  <!-- Suffix Card 3: -algia / -dynia (DEFAULT - Condition) -->
-                 <div class="interactive-card rounded-xl shadow-md overflow-hidden p-1 bg-default-dark" draggable="true">
-                    <div class="flip-card-header bg-default-dark text-white p-3 text-xl font-bold rounded-t-lg">
+                 <div class="interactive-card rounded-xl shadow-md overflow-hidden p-4 bg-default-dark h-48" draggable="true">
+                    <!-- Updated py-2 to py-1 and text-lg to text-xl -->
+                    <div class="flip-card-header bg-default-dark text-white px-3 py-1 text-xl font-bold rounded-t-lg">
                         <span>-algia / -dynia</span>
                     </div>
-                    <div class="p-4 bg-white text-sm space-y-2 rounded-b-lg">
-                        <p class="text-sm">Meaning: **Pain**</p>
+                    <div class="card-content p-4 bg-white text-sm space-y-2 rounded-b-lg rounded-t-xl">
+                        <p class="text-sm">Meaning: <strong>Pain</strong></p>
                         <div>
                             <span class="font-medium text-default-dark">Example:</span> Odontalgia
                             <p class="text-xs mt-1">Definition: Toothache</p>
@@ -388,12 +415,13 @@
                 </div>
 
                 <!-- Suffix Card 4: -osis (GROUP C - Deficiency/Condition) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-1 bg-group-c-dark" draggable="true">
-                    <div class="flip-card-header bg-group-c-dark text-white p-3 text-xl font-bold rounded-t-lg">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-4 bg-group-c-dark h-48" draggable="true">
+                    <!-- Updated py-2 to py-1 and text-lg to text-xl -->
+                    <div class="flip-card-header bg-group-c-dark text-white px-3 py-1 text-xl font-bold rounded-t-lg">
                         <span>-osis</span>
                     </div>
-                    <div class="p-4 bg-white text-sm space-y-2 rounded-b-lg">
-                        <p class="text-sm">Meaning: **Condition, usually abnormal**</p>
+                    <div class="card-content p-4 bg-white text-sm space-y-2 rounded-b-lg rounded-t-xl">
+                        <p class="text-sm">Meaning: <strong>Condition, usually abnormal</strong></p>
                         <div>
                             <span class="font-medium text-group-c-dark">Example:</span> Halitosis
                             <p class="text-xs mt-1">Definition: Bad breath condition</p>
@@ -402,12 +430,13 @@
                 </div>
 
                 <!-- Suffix Card 5: -plasty (DEFAULT - Procedure) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-1 bg-default-dark" draggable="true">
-                    <div class="flip-card-header bg-default-dark text-white p-3 text-xl font-bold rounded-t-lg">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-4 bg-default-dark h-48" draggable="true">
+                    <!-- Updated py-2 to py-1 and text-lg to text-xl -->
+                    <div class="flip-card-header bg-default-dark text-white px-3 py-1 text-xl font-bold rounded-t-lg">
                         <span>-plasty</span>
                     </div>
-                    <div class="p-4 bg-white text-sm space-y-2 rounded-b-lg">
-                        <p class="text-sm">Meaning: **Surgical repair**</p>
+                    <div class="card-content p-4 bg-white text-sm space-y-2 rounded-b-lg rounded-t-xl">
+                        <p class="text-sm">Meaning: <strong>Surgical repair</strong></p>
                         <div>
                             <span class="font-medium text-default-dark">Example:</span> Gingivoplasty
                             <p class="text-xs mt-1">Definition: Reshaping of gum tissue</p>
@@ -416,12 +445,13 @@
                 </div>
 
                 <!-- Suffix Card 6: -logy / -logist (DEFAULT - Study) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-1 bg-default-dark" draggable="true">
-                    <div class="flip-card-header bg-default-dark text-white p-3 text-xl font-bold rounded-t-lg">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-4 bg-default-dark h-48" draggable="true">
+                    <!-- Updated py-2 to py-1 and text-lg to text-xl -->
+                    <div class="flip-card-header bg-default-dark text-white px-3 py-1 text-xl font-bold rounded-t-lg">
                         <span>-logy / -logist</span>
                     </div>
-                    <div class="p-4 bg-white text-sm space-y-2 rounded-b-lg">
-                        <p class="text-sm">Meaning: **Study / specialist**</p>
+                    <div class="card-content p-4 bg-white text-sm space-y-2 rounded-b-lg rounded-t-xl">
+                        <p class="text-sm">Meaning: <strong>Study / specialist</strong></p>
                         <div>
                             <span class="font-medium text-default-dark">Example:</span> Periodontologist
                             <p class="text-xs mt-1">Definition: Specialist in gum diseases</p>
@@ -430,12 +460,13 @@
                 </div>
 
                 <!-- Suffix Card 7: -gram / -graph (DEFAULT - Procedure) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-1 bg-default-dark" draggable="true">
-                    <div class="flip-card-header bg-default-dark text-white p-3 text-xl font-bold rounded-t-lg">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden p-4 bg-default-dark h-48" draggable="true">
+                    <!-- Updated py-2 to py-1 and text-lg to text-xl -->
+                    <div class="flip-card-header bg-default-dark text-white px-3 py-1 text-xl font-bold rounded-t-lg">
                         <span>-gram / -graph</span>
                     </div>
-                    <div class="p-4 bg-white text-sm space-y-2 rounded-b-lg">
-                        <p class="text-sm">Meaning: **Record / instrument**</p>
+                    <div class="card-content p-4 bg-white text-sm space-y-2 rounded-b-lg rounded-t-xl">
+                        <p class="text-sm">Meaning: <strong>Record / instrument</strong></p>
                         <div>
                             <span class="font-medium text-default-dark">Example:</span> Radiograph
                             <p class="text-xs mt-1">Definition: Image produced by X-rays</p>
