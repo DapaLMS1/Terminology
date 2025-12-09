@@ -63,6 +63,22 @@
         .card-in-drop-zone {
             height: 9rem; /* Slightly smaller for the slot */
         }
+        /* Style for the card being dragged */
+        .interactive-card.is-dragging {
+            opacity: 0.5;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        /* NEW: Visual placeholder for reordering within columns */
+        .drag-placeholder {
+            background-color: #d1d5db; /* Gray-300 */
+            border: 2px dashed #9ca3af; /* Gray-400 */
+            border-radius: 0.75rem; /* rounded-xl */
+            height: 12rem; /* Matches card height + spacing */
+            margin-bottom: 1.5rem; /* Matches space-y-6 */
+            opacity: 0.7;
+            transition: all 0.2s ease-in-out;
+        }
     </style>
 </head>
 <body class="bg-white min-h-screen p-4 md:p-8 font-sans">
@@ -393,6 +409,13 @@
             };
             const resultArea = document.getElementById('result-area');
             const resetButton = document.getElementById('reset-button');
+            const columns = document.querySelectorAll('.column-container');
+            
+            // Global class for the placeholder
+            const PLACEHOLDER_CLASS = 'drag-placeholder';
+
+            // --- State Variable ---
+            let draggedElement = null; // Store the reference to the element being dragged
 
             // --- Utility Functions ---
 
@@ -400,6 +423,28 @@
             const updateResetButton = () => {
                 const isBuilderOccupied = Object.values(dropTargets).some(target => target.querySelector('.interactive-card'));
                 resetButton.disabled = !isBuilderOccupied;
+            };
+
+            // Function to find the element the dragged card should be placed after
+            const getDragAfterElement = (container, y) => {
+                // Get all elements in the container that are NOT the one currently being dragged or the placeholder
+                const draggableElements = [...container.querySelectorAll(`.interactive-card:not(.is-dragging):not(.${PLACEHOLDER_CLASS})`)];
+
+                return draggableElements.reduce((closest, child) => {
+                    const box = child.getBoundingClientRect();
+                    // Calculate distance from the center of the child card. 
+                    // Negative offset means the cursor is above the center of the child card.
+                    const offset = y - box.top - box.height / 2; 
+
+                    // We look for the child element where:
+                    // 1. The cursor is above its center (offset < 0)
+                    // 2. It is the closest to the cursor so far (offset > closest.offset)
+                    if (offset < 0 && offset > closest.offset) {
+                        return { offset: offset, element: child };
+                    } else {
+                        return closest;
+                    }
+                }, { offset: -Number.NEGATIVE_INFINITY }).element; // Initialize with a very negative offset
             };
 
             // Function to check the assembled word
@@ -479,31 +524,31 @@
             };
 
             // --- Drag and Drop Handlers ---
-            let draggedElement = null; // Store the reference to the element being dragged
 
             // 1. Drag Start
             document.querySelectorAll('.interactive-card').forEach(card => {
                 card.addEventListener('dragstart', (e) => {
-                    // Use a common data payload, but more importantly, mark the element
                     e.dataTransfer.setData('text/plain', 'card'); 
                     draggedElement = e.target;
-                    e.target.classList.add('opacity-50', 'border-4', 'border-gray-500', 'shadow-2xl');
+                    e.target.classList.add('is-dragging');
                     e.dataTransfer.effectAllowed = 'move';
                 });
 
                 card.addEventListener('dragend', (e) => {
                     draggedElement = null; // Clear the reference
-                    e.target.classList.remove('opacity-50', 'border-4', 'border-gray-500', 'shadow-2xl');
+                    e.target.classList.remove('is-dragging');
+                    // Remove any lingering placeholders after the drag is complete
+                    document.querySelectorAll(`.${PLACEHOLDER_CLASS}`).forEach(p => p.remove());
                 });
             });
 
-            // 2. Drag Over (Applies to all drop zones)
+            // 2. Drag Over (Applies to fixed drop slots: prefix, root, suffix)
             Object.values(dropTargets).forEach(zone => {
                 zone.addEventListener('dragover', (e) => {
                     e.preventDefault(); // Necessary to allow dropping
                     
                     if (!draggedElement) {
-                        e.dataTransfer.dropEffect = 'none'; // No valid card
+                        e.dataTransfer.dropEffect = 'none';
                         return;
                     }
 
@@ -514,26 +559,28 @@
                     if (draggingPart === targetPart) {
                         e.dataTransfer.dropEffect = 'move';
                         e.currentTarget.classList.add('border-green-500', 'bg-green-50');
-                        e.currentTarget.classList.remove('border-red-500'); // Ensure red border is removed if successful
+                        e.currentTarget.classList.remove('border-red-500', 'border-gray-300');
                     } else {
                         e.dataTransfer.dropEffect = 'none';
                         e.currentTarget.classList.remove('border-green-500', 'bg-green-50');
-                        e.currentTarget.classList.add('border-red-500'); // Show red border for invalid drop
+                        e.currentTarget.classList.add('border-red-500', 'border-dashed'); // Re-add dashed border
                     }
                 });
 
                 zone.addEventListener('dragleave', (e) => {
                     e.currentTarget.classList.remove('border-green-500', 'bg-green-50', 'border-red-500');
+                    e.currentTarget.classList.add('border-gray-300'); // Restore default border
                 });
             });
 
-            // 3. Drop Handler for Word Builder Zones
+            // 3. Drop Handler for Word Builder Zones (Moving card from column to slot)
             Object.values(dropTargets).forEach(zone => {
                 zone.addEventListener('drop', (e) => {
                     e.preventDefault();
                     e.currentTarget.classList.remove('border-green-500', 'bg-green-50', 'border-red-500');
+                    e.currentTarget.classList.add('border-gray-300'); // Restore default border
                     
-                    if (!draggedElement) return; // Drop only valid elements
+                    if (!draggedElement) return;
 
                     const draggingPart = draggedElement.dataset.part;
                     const targetPart = e.currentTarget.dataset.part;
@@ -555,7 +602,7 @@
 
                         // Place the new card in the drop zone
                         zone.innerHTML = ''; // Clear placeholder text
-                        draggedCard.classList.remove('opacity-50', 'border-4', 'border-gray-500', 'shadow-2xl');
+                        draggedCard.classList.remove('is-dragging'); // Clear dragging class
                         
                         // Apply drop zone styling
                         draggedCard.classList.add('card-in-drop-zone'); 
@@ -567,11 +614,78 @@
                     draggedElement = null; // Clear the reference after drop
                 });
             });
+            
+            // 4. Drag Over/Drop Handler for Column Containers (Reordering cards within a column)
+            columns.forEach(column => {
+                column.addEventListener('dragover', e => {
+                    if (!draggedElement) return;
 
-            // 4. Reset Button Listener
+                    const draggingPart = draggedElement.dataset.part;
+                    const columnPart = column.dataset.part;
+
+                    // Only allow dragover if the card being dragged belongs to this column type
+                    if (draggingPart === columnPart) {
+                        e.preventDefault(); // This allows the drop/movement
+                        e.dataTransfer.dropEffect = 'move';
+                        
+                        // 1. Remove any existing placeholder in this column
+                        column.querySelectorAll(`.${PLACEHOLDER_CLASS}`).forEach(p => p.remove());
+
+                        // 2. Determine where to insert the dragged card
+                        const afterElement = getDragAfterElement(column, e.clientY);
+                        
+                        // 3. Create and insert the visual placeholder
+                        const placeholder = document.createElement('div');
+                        placeholder.classList.add(PLACEHOLDER_CLASS);
+                        
+                        if (afterElement == null) {
+                            // If no element is found below, append the placeholder to the end
+                            column.appendChild(placeholder);
+                        } else {
+                            // Insert the placeholder before the determined 'afterElement'
+                            column.insertBefore(placeholder, afterElement);
+                        }
+                    }
+                });
+
+                column.addEventListener('dragleave', e => {
+                    // Check if the drag is leaving the entire column (not just moving over a child element)
+                    if (e.relatedTarget && !column.contains(e.relatedTarget)) {
+                         // Remove placeholder if leaving the column
+                         column.querySelectorAll(`.${PLACEHOLDER_CLASS}`).forEach(p => p.remove());
+                    }
+                });
+
+                // The actual drop to reorder
+                column.addEventListener('drop', e => {
+                    e.preventDefault();
+                    if (!draggedElement) return;
+
+                    const draggingPart = draggedElement.dataset.part;
+                    const columnPart = column.dataset.part;
+
+                    if (draggingPart === columnPart) {
+                        // 1. Find the current placeholder position
+                        const placeholder = column.querySelector(`.${PLACEHOLDER_CLASS}`);
+                        
+                        if (placeholder) {
+                            // 2. Insert the actual card before the placeholder
+                            column.insertBefore(draggedElement, placeholder);
+                            // 3. Remove the placeholder
+                            placeholder.remove();
+                        } else {
+                            // Fallback: If no placeholder was created (e.g., fast drag) append to end
+                            column.appendChild(draggedElement);
+                        }
+                    }
+                    draggedElement = null;
+                });
+            });
+
+            // 5. Reset Button Listener
             resetButton.addEventListener('click', resetCards);
             
-            // 5. Initialize: Ensure the button state is correct on load
+            // 6. Initialize: Ensure the button state is correct on load
             updateResetButton();
         });
     </script>
