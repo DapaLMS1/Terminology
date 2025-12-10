@@ -24,6 +24,8 @@
                         'default-light': '#D8D1E6',
                         
                         'column-background': '#F2F2F2',
+                        // New color for highlighting source language roots (Latin/Greek)
+                        'source-tint': '#E0E0E0', 
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
@@ -36,7 +38,7 @@
         /* Base styles for the card */
         .interactive-card {
             transition: transform 0.2s, box-shadow 0.2s;
-            cursor: default; /* No interaction needed */
+            cursor: pointer; /* Change cursor to indicate clickability */
             display: flex;
             flex-direction: column;
             user-select: text;
@@ -50,7 +52,15 @@
             flex-grow: 1;
             overflow-y: auto; 
         }
-        /* Removed min-height from definition-box as it's now in the header */
+        
+        /* New style for the root word terms to show the language origin tint */
+        .source-language-tint {
+            background-color: var(--tw-colors-source-tint); /* Use the defined Tailwind color */
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-style: italic; /* Add italic for extra visual distinction */
+            font-weight: 600;
+        }
     </style>
 </head>
 <body class="bg-white min-h-screen p-4 md:p-8 font-sans">
@@ -62,7 +72,7 @@
                 The Building Blocks of Medical Language
             </h1>
             <p class="mt-3 text-lg text-gray-600">
-                Medical terms are built from three main elements: a <strong>Prefix</strong>, a <strong>Root Word</strong>, and a <strong>Suffix</strong>. Understanding these parts is the key to quickly defining any complex medical term.
+                Medical terms are built from three main elements: a <strong>Prefix</strong>, a <strong>Root Word</strong>, and a <strong>Suffixs</strong>. Understanding these parts is the key to quickly defining any complex medical term.
             </p>
             
             <!-- Expanded Definitions moved here for prominence -->
@@ -93,10 +103,10 @@
                 </div>
             </div>
             
-            <!-- Example Box remains but now references the new structure -->
-            <div class="mt-4 p-4 bg-yellow-50 rounded-lg border-l-4 border-yellow-500 text-yellow-800 font-medium">
-                
-                <p class="mt-2 text-sm">Example: <strong>Peri-odont-itis</strong> = (Around) + (Tooth/Gums) + (Inflammation).</p>
+            <!-- Dynamic Example Box -->
+            <div id="dynamic-example-box" class="mt-4 p-4 bg-yellow-50 rounded-lg border-l-4 border-yellow-500 text-yellow-800 font-medium">
+                <!-- Initial Example -->
+                <p class="mt-2 text-sm"><strong id="dynamic-example-text">Click any flashcard below to see a specific example for that component.</strong></p>
             </div>
         </header>
 
@@ -104,246 +114,330 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
             <!-- Column 1: Prefix -->
-            <div id="column-prefix" class="column-container space-y-6 bg-column-background p-4 rounded-xl shadow-lg" data-part="prefix">
+            <div id="column-prefix" class="column-container space-y-6 bg-column-background p-4 rounded-xl shadow-lg" data-part="prefix" data-group="Location/Intensity">
                 <h2 class="text-2xl font-bold text-gray-700 pb-2 border-b-2 border-default-dark">Prefix Components</h2>
                 
-                <!-- Removed: Expanded Definition for Prefix (now in header) -->
+                <!-- NEW CARD: Brady- (DEFAULT - Rate) -->
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="prefix" data-value="Brady-" data-group="Rate/Timing" data-term-example="Bradycardia is a condition defined by a slow heart rate.">
+                    <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-2xl font-bold"><span>Brady-</span></div>
+                    <div class="card-content p-4 text-sm space-y-2">
+                        <p class="text-3xl font-extrabold text-default-dark">Slow</p>
+                        <div><span class="font-medium text-default-dark">For example,</span> Bradycardia is a condition defined by a slow heart rate.</div>
+                    </div>
+                </div>
+
+                <!-- NEW CARD: Tachy- (DEFAULT - Rate) -->
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="prefix" data-value="Tachy-" data-group="Rate/Timing" data-term-example="Tachypnoea is the medical term for rapid breathing.">
+                    <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-2xl font-bold"><span>Tachy-</span></div>
+                    <div class="card-content p-4 text-sm space-y-2">
+                        <p class="text-3xl font-extrabold text-default-dark">Fast</p>
+                        <div><span class="font-medium text-default-dark">For example,</span> Tachypnoea is the medical term for rapid breathing.</div>
+                    </div>
+                </div>
+                
+                <!-- NEW CARD: Hemi- (DEFAULT - Number) -->
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="prefix" data-value="Hemi-" data-group="Number/Amount" data-term-example="Hemiplegia is paralysis affecting one vertical half of the body.">
+                    <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-2xl font-bold"><span>Hemi-</span></div>
+                    <div class="card-content p-4 text-sm space-y-2">
+                        <p class="text-3xl font-extrabold text-default-dark">Half</p>
+                        <div><span class="font-medium text-default-dark">For example,</span> Hemiplegia is paralysis affecting one vertical half of the body.</div>
+                    </div>
+                </div>
+
+                <!-- NEW CARD: Poly- (DEFAULT - Number) -->
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="prefix" data-value="Poly-" data-group="Number/Amount" data-term-example="Polyuria means the excessive or abnormally large production of urine.">
+                    <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-2xl font-bold"><span>Poly-</span></div>
+                    <div class="card-content p-4 text-sm space-y-2">
+                        <p class="text-3xl font-extrabold text-default-dark">Many / much</p>
+                        <div><span class="font-medium text-default-dark">For example,</span> Polyuria means the excessive or abnormally large production of urine.</div>
+                    </div>
+                </div>
 
                 <!-- Card 1: Hypo- (DEFAULT - Position) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="prefix" data-value="Hypo-">
-                    <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-xl font-bold"><span>Hypo-</span></div>
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="prefix" data-value="Hypo-" data-group="Location/Quantity" data-term-example="Hypothermia is a term for below normal body temperature.">
+                    <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-2xl font-bold"><span>Hypo-</span></div>
                     <div class="card-content p-4 text-sm space-y-2">
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-default-dark">Under</p>
+                        <p class="text-3xl font-extrabold text-default-dark">Under</p>
                         <div><span class="font-medium text-default-dark">For example,</span> Hypothermia is a term for below normal body temperature.</div>
                     </div>
                 </div>
 
                 <!-- Card 2: Pre- (DEFAULT - Time) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="prefix" data-value="Pre-">
-                    <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-xl font-bold"><span>Pre-</span></div>
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="prefix" data-value="Pre-" data-group="Time/Order" data-term-example="Preoperative means occurring before surgery.">
+                    <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-2xl font-bold"><span>Pre-</span></div>
                     <div class="card-content p-4 text-sm space-y-2">
-                         <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-default-dark">Before</p>
+                         <p class="text-3xl font-extrabold text-default-dark">Before</p>
                         <div><span class="font-medium text-default-dark">For example,</span> Preoperative means occurring before surgery.</div>
                     </div>
                 </div>
 
                 <!-- Card 3: Peri- (GROUP B - Surgical/Around) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="prefix" data-value="Peri-">
-                    <div class="flip-card-header bg-group-b-dark text-white px-4 py-1 text-xl font-bold"><span>Peri-</span></div>
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="prefix" data-value="Peri-" data-group="Location/Around" data-term-example="Pericoronitis describes inflammation around a tooth crown.">
+                    <div class="flip-card-header bg-group-b-dark text-white px-4 py-1 text-2xl font-bold"><span>Peri-</span></div>
                     <div class="card-content p-4 text-sm space-y-2">
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-group-b-dark">Around</p>
+                        <p class="text-3xl font-extrabold text-group-b-dark">Around</p>
                         <div><span class="font-medium text-group-b-dark">For example,</span> Pericoronitis describes inflammation around a tooth crown.</div>
                     </div>
                 </div>
                 
                 <!-- Card 4: Sub- (GROUP A - Inflammation/Gums) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="prefix" data-value="Sub-">
-                    <div class="flip-card-header bg-group-a-dark text-white px-4 py-1 text-xl font-bold"><span>Sub-</span></div>
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="prefix" data-value="Sub-" data-group="Location/Below" data-term-example="Subgingival refers to the location beneath the gumline.">
+                    <div class="flip-card-header bg-group-a-dark text-white px-4 py-1 text-2xl font-bold"><span>Sub-</span></div>
                     <div class="card-content p-4 text-sm space-y-2">
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-group-a-dark">Below</p>
+                        <p class="text-3xl font-extrabold text-group-a-dark">Below</p>
                         <div><span class="font-medium text-group-a-dark">For example,</span> Subgingival refers to the location beneath the gumline.</div>
                     </div>
                 </div>
 
                 <!-- Card 5: Intra- (DEFAULT - Position) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="prefix" data-value="Intra-">
-                    <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-xl font-bold"><span>Intra-</span></div>
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="prefix" data-value="Intra-" data-group="Location/Within" data-term-example="Intraoral refers to procedures or areas within the mouth.">
+                    <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-2xl font-bold"><span>Intra-</span></div>
                     <div class="card-content p-4 text-sm space-y-2">
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-default-dark">Within</p>
+                        <p class="text-3xl font-extrabold text-default-dark">Within</p>
                         <div><span class="font-medium text-default-dark">For example,</span> Intraoral refers to procedures or areas within the mouth.</div>
                     </div>
                 </div>
 
                 <!-- Card 6: Hyper- (DEFAULT - Intensity) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="prefix" data-value="Hyper-">
-                    <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-xl font-bold"><span>Hyper-</span></div>
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="prefix" data-value="Hyper-" data-group="Intensity/Above" data-term-example="Hyperplasia is an overgrowth of tissue.">
+                    <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-2xl font-bold"><span>Hyper-</span></div>
                     <div class="card-content p-4 text-sm space-y-2">
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-default-dark">Excessive</p>
+                        <p class="text-3xl font-extrabold text-default-dark">Excessive</p>
                         <div><span class="font-medium text-default-dark">For example,</span> Hyperplasia is an overgrowth of tissue.</div>
                     </div>
                 </div>
                 
                 <!-- Card 7: Hypo- (GROUP C - Deficiency/Condition) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="prefix" data-value="Hypo-">
-                    <div class="flip-card-header bg-group-c-dark text-white px-4 py-1 text-xl font-bold"><span>Hypo-</span></div>
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="prefix" data-value="Hypo-" data-group="Intensity/Deficiency" data-term-example="Hypocalcification means insufficient calcium in enamel.">
+                    <div class="flip-card-header bg-group-c-dark text-white px-4 py-1 text-2xl font-bold"><span>Hypo-</span></div>
                     <div class="card-content p-4 text-sm space-y-2">
-                         <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-group-c-dark">Deficient</p>
+                         <p class="text-3xl font-extrabold text-group-c-dark">Deficient</p>
                         <div><span class="font-medium text-group-c-dark">For example,</span> Hypocalcification means insufficient calcium in enamel.</div>
                     </div>
                 </div>
 
                 <!-- Card 8: Dys- (DEFAULT - Abnormal) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="prefix" data-value="Dys-">
-                    <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-xl font-bold"><span>Dys-</span></div>
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="prefix" data-value="Dys-" data-group="Quality/Abnormal" data-term-example="Dysphagia is the medical term for difficulty swallowing.">
+                    <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-2xl font-bold"><span>Dys-</span></div>
                     <div class="card-content p-4 text-sm space-y-2">
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-default-dark">Abnormal</p>
+                        <p class="text-3xl font-extrabold text-default-dark">Abnormal</p>
                         <div><span class="font-medium text-default-dark">For example,</span> Dysphagia is the medical term for difficulty swallowing.</div>
                     </div>
                 </div>
 
                 <!-- Card 9: Para- (DEFAULT - Position) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="prefix" data-value="Para-">
-                    <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-xl font-bold"><span>Para-</span></div>
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="prefix" data-value="Para-" data-group="Location/Beside" data-term-example="Parotid describes the salivary gland region near the ear.">
+                    <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-2xl font-bold"><span>Para-</span></div>
                     <div class="card-content p-4 text-sm space-y-2">
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-default-dark">Beside</p>
+                        <p class="text-3xl font-extrabold text-default-dark">Beside</p>
                         <div><span class="font-medium text-default-dark">For example,</span> Parotid describes the salivary gland region near the ear.</div>
                     </div>
                 </div>
             </div>
 
             <!-- Column 2: Root Word -->
-            <div id="column-root" class="column-container space-y-6 bg-column-background p-4 rounded-xl shadow-lg" data-part="root">
+            <div id="column-root" class="column-container space-y-6 bg-column-background p-4 rounded-xl shadow-lg" data-part="root" data-group="Body Parts">
                 <h2 class="text-2xl font-bold text-gray-700 pb-2 border-b-2 border-default-dark">Root Word Components</h2>
                 
-                <!-- Removed: Expanded Definition for Root Word (now in header) -->
-
                 <!-- Root Card 1: Dent- / Odont- (GROUP B - Surgical/Bone) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="root" data-value="Odont">
-                    <div class="flip-card-header bg-group-b-dark text-white px-4 py-1 text-xl font-bold"><span>Dent- / Odont-</span></div>
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="root" data-value="Odont" data-group="Dental Structure" data-term-example="Dentition refers to the arrangement of teeth.">
+                    <div class="flip-card-header bg-group-b-dark text-white px-4 py-1 text-2xl font-bold">
+                        <span>Dent- / <span class="source-language-tint">Odont-</span></span> 
+                    </div>
                     <div class="card-content p-4 text-sm space-y-2">
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-group-b-dark">Tooth</p>
+                        <p class="text-3xl font-extrabold text-group-b-dark">Tooth</p>
                         <div><span class="font-medium text-group-b-dark">For example,</span> Dentition refers to the arrangement of teeth.</div>
                     </div>
                 </div>
                 
                 <!-- Root Card 2: Gingiv- (GROUP A - Inflammation/Gums) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="root" data-value="Gingiv">
-                    <div class="flip-card-header bg-group-a-dark text-white px-4 py-1 text-xl font-bold"><span>Gingiv-</span></div>
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="root" data-value="Gingiv" data-group="Body Part: Gums" data-term-example="Gingivitis is inflammation of the gums.">
+                    <div class="flip-card-header bg-group-a-dark text-white px-4 py-1 text-2xl font-bold"><span>Gingiv-</span></div>
                     <div class="card-content p-4 text-sm space-y-2">
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-group-a-dark">Gums</p>
+                        <p class="text-3xl font-extrabold text-group-a-dark">Gums</p>
                         <div><span class="font-medium text-group-a-dark">For example,</span> Gingivitis is inflammation of the gums.</div>
                     </div>
                 </div>
                 
                 <!-- Root Card 3: Enamel / Amel- (GROUP C - Deficiency/Condition) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="root" data-value="Amel">
-                    <div class="flip-card-header bg-group-c-dark text-white px-4 py-1 text-xl font-bold"><span>Enamel / Amel-</span></div>
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="root" data-value="Amel" data-group="Dental Structure" data-term-example="Hypo-amelogenesis is the under-development of enamel.">
+                    <div class="flip-card-header bg-group-c-dark text-white px-4 py-1 text-2xl font-bold">
+                        <span>Enamel / <span class="source-language-tint">Amel-</span></span>
+                    </div>
                     <div class="card-content p-4 text-sm space-y-2">
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-group-c-dark">Enamel</p>
+                        <p class="text-3xl font-extrabold text-group-c-dark">Enamel</p>
                         <div><span class="font-medium text-group-c-dark">For example,</span> Hypo-amelogenesis is the under-development of enamel.</div>
                     </div>
                 </div>
                 
                 <!-- Root Card 4: Pulp- (DEFAULT - Structure) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="root" data-value="Pulp">
-                    <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-xl font-bold"><span>Pulp-</span></div>
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="root" data-value="Pulp" data-group="Body Part: Dental Pulp" data-term-example="Pulpitis is inflammation of the dental pulp.">
+                    <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-2xl font-bold"><span>Pulp-</span></div>
                     <div class="card-content p-4 text-sm space-y-2">
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-default-dark">Dental pulp</p>
+                        <p class="text-3xl font-extrabold text-default-dark">Dental pulp</p>
                         <div><span class="font-medium text-default-dark">For example,</span> Pulpitis is inflammation of the dental pulp.</div>
                     </div>
                 </div>
                 
                 <!-- Root Card 5: Alveol- (DEFAULT - Structure) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="root" data-value="Alveol">
-                    <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-xl font-bold"><span>Alveol-</span></div>
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="root" data-value="Alveol" data-group="Body Part: Socket/Bone" data-term-example="The Alveolar ridge is the bone supporting teeth.">
+                    <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-2xl font-bold"><span>Alveol-</span></div>
                     <div class="card-content p-4 text-sm space-y-2">
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-default-dark">Socket</p>
+                        <p class="text-3xl font-extrabold text-default-dark">Socket</p>
                         <div><span class="font-medium text-default-dark">For example,</span> The Alveolar ridge is the bone supporting teeth.</div>
                     </div>
                 </div>
                 
                 <!-- Root Card 6: Or- / Stomat- (DEFAULT - Structure) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="root" data-value="Stomat">
-                    <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-xl font-bold"><span>Or- / Stomat-</span></div>
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="root" data-value="Stomat" data-group="Body Part: Mouth" data-term-example="Stomatitis is inflammation of the mouth.">
+                    <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-2xl font-bold">
+                        <span>Or- / <span class="source-language-tint">Stomat-</span></span>
+                    </div>
                     <div class="card-content p-4 text-sm space-y-2">
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-default-dark">Mouth</p>
+                        <p class="text-3xl font-extrabold text-default-dark">Mouth</p>
                         <div><span class="font-medium text-default-dark">For example,</span> Stomatitis is inflammation of the mouth.</div>
                     </div>
                 </div>
 
                 <!-- Root Card 7: Maxill- / Mandibul- (DEFAULT - Structure) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="root" data-value="Maxill">
-                    <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-xl font-bold"><span>Maxill- / Mandibul-</span></div>
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="root" data-value="Maxill" data-group="Body Part: Jaw" data-term-example="Maxillary arch refers to the upper jaw structure.">
+                    <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-2xl font-bold"><span>Maxill- / Mandibul-</span></div>
                     <div class="card-content p-4 text-sm space-y-2">
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-default-dark">Jaw</p>
+                        <p class="text-3xl font-extrabold text-default-dark">Jaw</p>
                         <div><span class="font-medium text-default-dark">For example,</span> Maxillary arch refers to the upper jaw structure.</div>
                     </div>
                 </div>
                 
                 <!-- Root Card 8: Cephal- / Cran- (DEFAULT - Structure) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="root" data-value="Cephal">
-                    <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-xl font-bold"><span>Cephal- / Cran-</span></div>
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="root" data-value="Cephal" data-group="Body Part: Head" data-term-example="Cephalometric analysis is head measurement for orthodontics.">
+                    <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-2xl font-bold">
+                        <span><span class="source-language-tint">Cephal-</span> / Cran-</span>
+                    </div>
                     <div class="card-content p-4 text-sm space-y-2">
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-default-dark">Head / skull</p>
+                        <p class="text-3xl font-extrabold text-default-dark">Head / skull</p>
                         <div><span class="font-medium text-default-dark">For example,</span> Cephalometric analysis is head measurement for orthodontics.</div>
                     </div>
                 </div>
 
                 <!-- Root Card 9: Cardi- (DEFAULT - System) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="root" data-value="Cardi">
-                    <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-xl font-bold"><span>Cardi-</span></div>
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="root" data-value="Cardi" data-group="Body System: Heart" data-term-example="Cardiology is the study of the heart.">
+                    <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-2xl font-bold">
+                        <span><span class="source-language-tint">Cardi-</span></span>
+                    </div>
                     <div class="card-content p-4 text-sm space-y-2">
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-default-dark">Heart</p>
+                        <p class="text-3xl font-extrabold text-default-dark">Heart</p>
                         <div><span class="font-medium text-default-dark">For example,</span> Cardiology is the study of the heart.</div>
                     </div>
                 </div>
             </div>
 
             <!-- Column 3: Suffix -->
-            <div id="column-suffix" class="column-container space-y-6 bg-column-background p-4 rounded-xl shadow-lg" data-part="suffix">
+            <div id="column-suffix" class="column-container space-y-6 bg-column-background p-4 rounded-xl shadow-lg" data-part="suffix" data-group="Condition/Procedure">
                 <h2 class="text-2xl font-bold text-gray-700 pb-2 border-b-2 border-default-dark">Suffix Components</h2>
                 
-                <!-- Removed: Expanded Definition for Suffix (now in header) -->
+                <!-- NEW CARD: -algia (DEFAULT - Condition: Pain) - Replaces the old -algia/-dynia card -->
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="suffix" data-value="algia" data-group="Condition: Pain" data-term-example="Neuralgia is pain felt along a nerve path.">
+                    <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-2xl font-bold">
+                        <span>-<span class="source-language-tint">algia</span></span>
+                    </div>
+                    <div class="card-content p-4 text-sm space-y-2">
+                        <p class="text-3xl font-extrabold text-default-dark">Pain</p>
+                        <div><span class="font-medium text-default-dark">For example,</span> Neuralgia is pain felt along a nerve path.</div>
+                    </div>
+                </div>
+                
+                <!-- NEW CARD: -ectomy (DEFAULT - Procedure: Removal) - Note: The old -ectomy card was group-b, this new one uses default for the specific example -->
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="suffix" data-value="ectomy" data-group="Procedure: Surgical Removal" data-term-example="Appendectomy is the surgical removal of the appendix.">
+                    <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-2xl font-bold"><span>-ectomy</span></div>
+                    <div class="card-content p-4 text-sm space-y-2">
+                        <p class="text-3xl font-extrabold text-default-dark">Surgical removal</p>
+                        <div><span class="font-medium text-default-dark">For example,</span> Appendectomy is the surgical removal of the appendix.</div>
+                    </div>
+                </div>
+
+                <!-- NEW CARD: -oma (DEFAULT - Condition: Growth) -->
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="suffix" data-value="oma" data-group="Condition: Tumour/Growth" data-term-example="Carcinoma is a malignant tumor arising from epithelial cells.">
+                    <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-2xl font-bold">
+                        <span>-<span class="source-language-tint">oma</span></span>
+                    </div>
+                    <div class="card-content p-4 text-sm space-y-2">
+                        <p class="text-3xl font-extrabold text-default-dark">Tumour / growth</p>
+                        <div><span class="font-medium text-default-dark">For example,</span> Carcinoma is a malignant tumor arising from epithelial cells.</div>
+                    </div>
+                </div>
+
+                <!-- NEW CARD: -pathy (DEFAULT - Condition: Disease) -->
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="suffix" data-value="pathy" data-group="Condition: Disease" data-term-example="Neuropathy is a general term for a disease or dysfunction of nerves.">
+                    <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-2xl font-bold">
+                        <span>-<span class="source-language-tint">pathy</span></span>
+                    </div>
+                    <div class="card-content p-4 text-sm space-y-2">
+                        <p class="text-3xl font-extrabold text-default-dark">Disease</p>
+                        <div><span class="font-medium text-default-dark">For example,</span> Neuropathy is a general term for a disease or dysfunction of nerves.</div>
+                    </div>
+                </div>
 
                 <!-- Suffix Card 1: -itis (GROUP A - Inflammation/Gums) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="suffix" data-value="itis">
-                    <div class="flip-card-header bg-group-a-dark text-white px-4 py-1 text-xl font-bold"><span>-itis</span></div>
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="suffix" data-value="itis" data-group="Condition: Inflammation" data-term-example="Gingivitis is inflammation of the gums.">
+                    <div class="flip-card-header bg-group-a-dark text-white px-4 py-1 text-2xl font-bold"><span>-itis</span></div>
                     <div class="card-content p-4 text-sm space-y-2">
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-group-a-dark">Inflammation</p>
+                        <p class="text-3xl font-extrabold text-group-a-dark">Inflammation</p>
                         <div><span class="font-medium text-group-a-dark">For example,</span> Gingivitis is inflammation of the gums.</div>
                     </div>
                 </div>
 
-                <!-- Suffix Card 2: -ectomy (GROUP B - Surgical/Bone) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="suffix" data-value="ectomy">
-                    <div class="flip-card-header bg-group-b-dark text-white px-4 py-1 text-xl font-bold"><span>-ectomy</span></div>
+                <!-- Suffix Card 2: -ectomy (GROUP B - Surgical/Bone) - RETAINED FOR DENTAL CONTEXT -->
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="suffix" data-value="ectomy_dental" data-group="Procedure: Dental Removal" data-term-example="Odontectomy means surgical removal of a tooth.">
+                    <div class="flip-card-header bg-group-b-dark text-white px-4 py-1 text-2xl font-bold"><span>-ectomy</span></div>
                     <div class="card-content p-4 text-sm space-y-2">
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-group-b-dark">Surgical removal</p>
+                        <p class="text-3xl font-extrabold text-group-b-dark">Surgical removal (Dental Context)</p>
                         <div><span class="font-medium text-group-b-dark">For example,</span> Odontectomy means surgical removal of a tooth.</div>
                     </div>
                 </div>
 
-                 <!-- Suffix Card 3: -algia / -dynia (DEFAULT - Condition) -->
-                 <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="suffix" data-value="algia">
-                    <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-xl font-bold"><span>-algia / -dynia</span></div>
+                <!-- Suffix Card 3: -dynia (DEFAULT - Condition: Pain) - The part of the old combined card -->
+                 <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="suffix" data-value="dynia" data-group="Condition: Pain" data-term-example="Pleurodynia is sharp pain in the side due to muscle spasms.">
+                    <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-2xl font-bold">
+                        <span>-dynia</span>
+                    </div>
                     <div class="card-content p-4 text-sm space-y-2">
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-default-dark">Pain</p>
-                        <div><span class="font-medium text-default-dark">For example,</span> Odontalgia is the medical term for toothache.</div>
+                        <p class="text-3xl font-extrabold text-default-dark">Pain</p>
+                        <div><span class="font-medium text-default-dark">For example,</span> Pleurodynia is sharp pain in the side due to muscle spasms.</div>
                     </div>
                 </div>
 
                 <!-- Suffix Card 4: -osis (GROUP C - Deficiency/Condition) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="suffix" data-value="osis">
-                    <div class="flip-card-header bg-group-c-dark text-white px-4 py-1 text-xl font-bold"><span>-osis</span></div>
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="suffix" data-value="osis" data-group="Condition: Abnormal State" data-term-example="Halitosis is the condition commonly known as bad breath.">
+                    <div class="flip-card-header bg-group-c-dark text-white px-4 py-1 text-2xl font-bold"><span>-osis</span></div>
                     <div class="card-content p-4 text-sm space-y-2">
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-group-c-dark">Condition</p>
+                        <p class="text-3xl font-extrabold text-group-c-dark">Condition</p>
                         <div><span class="font-medium text-group-c-dark">For example,</span> Halitosis is the condition commonly known as bad breath.</div>
                     </div>
                 </div>
 
                 <!-- Suffix Card 5: -plasty (DEFAULT - Procedure) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="suffix" data-value="plasty">
-                    <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-xl font-bold"><span>-plasty</span></div>
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="suffix" data-value="plasty" data-group="Procedure: Repair" data-term-example="Gingivoplasty is the surgical repair or reshaping of gum tissue.">
+                    <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-2xl font-bold"><span>-plasty</span></div>
                     <div class="card-content p-4 text-sm space-y-2">
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-default-dark">Surgical repair</p>
+                        <p class="text-3xl font-extrabold text-default-dark">Surgical repair</p>
                         <div><span class="font-medium text-default-dark">For example,</span> Gingivoplasty is the surgical repair or reshaping of gum tissue.</div>
                     </div>
                 </div>
 
                 <!-- Suffix Card 6: -logy / -logist (DEFAULT - Study) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="suffix" data-value="logy">
-                    <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-xl font-bold"><span>-logy / -logist</span></div>
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="suffix" data-value="logy" data-group="Procedure: Study/Specialist" data-term-example="A Periodontologist is a specialist in gum diseases.">
+                    <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-2xl font-bold"><span>-logy / -logist</span></div>
                     <div class="card-content p-4 text-sm space-y-2">
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-default-dark">Study</p>
+                        <p class="text-3xl font-extrabold text-default-dark">Study</p>
                         <div><span class="font-medium text-default-dark">For example,</span> A Periodontologist is a specialist in gum diseases.</div>
                     </div>
                 </div>
 
                 <!-- Suffix Card 7: -gram / -graph (DEFAULT - Procedure) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="suffix" data-value="gram">
-                    <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-xl font-bold"><span>-gram / -graph</span></div>
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="suffix" data-value="gram" data-group="Procedure: Recording" data-term-example="A Radiograph is an image produced by X-rays.">
+                    <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-2xl font-bold"><span>-gram / -graph</span></div>
                     <div class="card-content p-4 text-sm space-y-2">
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-default-dark">Record</p>
+                        <p class="text-3xl font-extrabold text-default-dark">Record</p>
                         <div><span class="font-medium text-default-dark">For example,</span> A Radiograph is an image produced by X-rays.</div>
                     </div>
                 </div>
@@ -351,5 +445,64 @@
             </div>
         </div>
     </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.interactive-card');
+            const exampleTextElement = document.getElementById('dynamic-example-text');
+            const initialExample = exampleTextElement.innerHTML;
+            
+            // Helper function to extract the full definition content (all text in card-content)
+            function getFullDefinition(card) {
+                const parts = card.querySelectorAll('.card-content > div');
+                if (parts.length > 0) {
+                    // Extract the text content of the div that contains the "For example" sentence, 
+                    // and strip the leading "For example, " part.
+                    const text = parts[0].textContent;
+                    return text.replace(/For example,/, '').trim();
+                }
+                return 'No detailed definition available.';
+            }
+
+            cards.forEach(card => {
+                // Add click listener to each card
+                card.addEventListener('click', () => {
+                    // 1. Get the component data
+                    const part = card.getAttribute('data-part');
+                    // Get the main display value from the header (includes HTML for tint)
+                    const componentValueHtml = card.querySelector('.flip-card-header span').innerHTML;
+                    
+                    // 2. Get the specific example sentence from the data attribute
+                    const exampleSentence = card.getAttribute('data-term-example');
+                    
+                    // 3. Get the bold meaning text (Updated selector to look for font-extrabold)
+                    const meaning = card.querySelector('.card-content .font-extrabold').textContent;
+
+                    // 4. Get the group type (data attribute added to the card for better categorization)
+                    const group = card.getAttribute('data-group') || 'General Category';
+
+                    // 5. Construct the new, detailed example text
+                    let newExampleHtml = `
+                        <div class="flex flex-col sm:flex-row sm:items-baseline sm:space-x-4 mb-2">
+                            <span class="text-xl font-extrabold text-yellow-900">${componentValueHtml}</span>
+                            <span class="text-sm font-medium text-yellow-700">(${part.charAt(0).toUpperCase() + part.slice(1)} | ${group})</span>
+                        </div>
+                        
+                        <p class="text-base font-bold text-yellow-900 mt-1 mb-2">Meaning:</p>
+                        <p class="text-3xl font-extrabold text-yellow-900 my-1">${meaning}</p>
+                        
+                        <p class="text-base font-bold text-yellow-900 mt-4 mb-1">Example Usage:</p>
+                        <p class="text-sm font-medium text-yellow-800">${exampleSentence}</p>
+                    `;
+
+                    // 6. Update the header element
+                    exampleTextElement.innerHTML = newExampleHtml;
+                });
+            });
+            
+            // Optional: Reset button/mechanism could be added here if needed,
+            // but for now, clicking a new card just displays its info.
+        });
+    </script>
 </body>
 </html>
