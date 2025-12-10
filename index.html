@@ -16,16 +16,16 @@
                         'prefix-dark': '#553787',
                         'prefix-light': '#D8D1E6',
                         
-                        // ROOTS: Teal
-                        'root-dark': '#20BC9A',
-                        'root-light': '#D4F4ED',
+                        // ROOTS: Softer Green (Updated for gentler contrast)
+                        'root-dark': '#16A34A', // Adjusted from teal to a softer, standard green
+                        'root-light': '#DCFCE7', // Adjusted for a lighter, pastel background
                         
                         // SUFFIXES: Bright Orange
                         'suffix-dark': '#F37A2F',
                         'suffix-light': '#FEEED8',
                         
-                        // General fallback (used for "Show All" button only)
-                        'default-dark': '#553787', 
+                        // Neutral Dark Gray for "Show All" button
+                        'show-all-dark': '#4B5563', 
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
@@ -79,14 +79,14 @@
     <div class="max-w-7xl mx-auto">
         <header class="mb-8">
             <h1 class="text-3xl md:text-4xl font-extrabold text-gray-800 mb-2">Dental Terminology</h1>
-            <p class="text-gray-600">A flashcard system for mastering common prefixes, roots, and suffixes in medical terminology.</p>
+            <p class="text-gray-600">A flashcard system for mastering common prefixes, root words, and suffixes in medical terminology.</p>
             
             <!-- Summary of Components Added Here (Color names removed) -->
             <div class="mt-4 text-gray-700 p-4 border border-gray-200 rounded-lg shadow-inner bg-white">
                 <p class="font-semibold mb-2 text-lg">Building Blocks of Dental Terminology:</p>
                 <ul class="list-disc ml-6 space-y-1 text-sm">
                     <li><strong class="text-prefix-dark">Prefix:</strong> Appears at the beginning of a word and usually indicates location, time, amount, or number. Example: *sub-* (under).</li>
-                    <li><strong class="text-root-dark">Root:</strong> The foundation of the word, providing its essential meaning, often referring to a body part, organ, or substance. Example: *gingiv-* (gums).</li>
+                    <li><strong class="text-root-dark">Root Words:</strong> The foundation of the word, providing its essential meaning, often referring to a body part, organ, or substance. Example: *gingiv-* (gums).</li>
                     <li><strong class="text-suffix-dark">Suffix:</strong> Appears at the end of a word and often indicates a procedure, condition, disease, or study. Example: *-itis* (inflammation).</li>
                 </ul>
             </div>
@@ -96,9 +96,11 @@
         <div class="mb-6 flex flex-col md:flex-row md:items-center justify-between space-y-4 md:space-y-0">
             <!-- Filter buttons -->
             <div id="filter-controls" class="flex flex-wrap gap-2">
-                <button class="filter-button bg-default-dark text-white px-4 py-2 rounded-full text-sm hover:opacity-90 transition active" data-filter-type="part" data-filter-value="all" style="--tw-ring-color: #553787;">Show All</button>
+                <!-- Show All uses Dark Gray -->
+                <button class="filter-button bg-show-all-dark text-white px-4 py-2 rounded-full text-sm hover:opacity-90 transition active" data-filter-type="part" data-filter-value="all" style="--tw-ring-color: #4B5563;">Show All</button>
                 <button class="filter-button bg-prefix-dark text-white px-4 py-2 rounded-full text-sm hover:opacity-90 transition" data-filter-type="part" data-filter-value="prefix" style="--tw-ring-color: #553787;">Prefixes</button>
-                <button class="filter-button bg-root-dark text-white px-4 py-2 rounded-full text-sm hover:opacity-90 transition" data-filter-type="part" data-filter-value="root" style="--tw-ring-color: #20BC9A;">Roots</button>
+                <!-- Root Words button updated -->
+                <button class="filter-button bg-root-dark text-white px-4 py-2 rounded-full text-sm hover:opacity-90 transition" data-filter-type="part" data-filter-value="root" style="--tw-ring-color: #16A34A;">Root Words</button>
                 <button class="filter-button bg-suffix-dark text-white px-4 py-2 rounded-full text-sm hover:opacity-90 transition" data-filter-type="part" data-filter-value="suffix" style="--tw-ring-color: #F37A2F;">Suffixes</button>
             </div>
             
@@ -120,123 +122,189 @@
             <!-- PREFIXES (Purple Theme) -->
 
             <!-- Prefix Card 1: Peri- -->
-            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-prefix-light h-52 flex flex-col" data-part="prefix" data-value="peri">
+            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-prefix-light h-56 flex flex-col" data-part="prefix" data-value="peri">
                 <div class="flip-card-header bg-prefix-dark text-white px-4 py-1 text-xl font-bold capitalize-first-letter"><span>Peri-</span></div>
-                <div class="card-content p-4 text-sm space-y-2">
-                    <div>
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-prefix-dark">Around, surrounding</p>
+                <div class="card-content p-4 text-sm flex flex-col h-full justify-between">
+                    <!-- Meaning Area: Fixed Height (h-20 = 80px) to ensure example starts consistently -->
+                    <div class="meaning-area h-20">
+                        <p class="text-sm font-medium mb-1">Meaning:</p>
+                        <p class="text-xl font-extrabold text-prefix-dark leading-snug">Around, surrounding</p>
                     </div>
-                    <div class="pt-2"><span class="font-medium text-prefix-dark">For example,</span> Pericoronitis (Inflammation around a tooth crown).</div>
+                    
+                    <!-- Example Area: Fixed Height (h-10 = 40px) to reserve 2 lines of space -->
+                    <div class="example-area h-10">
+                        <span class="font-medium text-prefix-dark">For example,</span> Pericoronitis (Inflammation around a tooth crown).
+                    </div>
                 </div>
             </div>
 
             <!-- Prefix Card 2: Sub- -->
-            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-prefix-light h-52 flex flex-col" data-part="prefix" data-value="sub">
+            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-prefix-light h-56 flex flex-col" data-part="prefix" data-value="sub">
                 <div class="flip-card-header bg-prefix-dark text-white px-4 py-1 text-xl font-bold capitalize-first-letter"><span>Sub-</span></div>
-                <div class="card-content p-4 text-sm space-y-2">
-                    <div>
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-prefix-dark">Under, below</p>
+                <div class="card-content p-4 text-sm flex flex-col h-full justify-between">
+                    <!-- Meaning Area: Fixed Height (h-20 = 80px) to ensure example starts consistently -->
+                    <div class="meaning-area h-20">
+                        <p class="text-sm font-medium mb-1">Meaning:</p>
+                        <p class="text-xl font-extrabold text-prefix-dark leading-snug">Under, below</p>
                     </div>
-                    <div class="pt-2"><span class="font-medium text-prefix-dark">For example,</span> Subgingival (Beneath the gumline).</div>
+                    
+                    <!-- Example Area: Fixed Height (h-10 = 40px) to reserve 2 lines of space -->
+                    <div class="example-area h-10">
+                        <span class="font-medium text-prefix-dark">For example,</span> Subgingival (Beneath the gumline).
+                    </div>
                 </div>
             </div>
 
             <!-- Prefix Card 3: Intra- -->
-            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-prefix-light h-52 flex flex-col" data-part="prefix" data-value="intra">
+            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-prefix-light h-56 flex flex-col" data-part="prefix" data-value="intra">
                 <div class="flip-card-header bg-prefix-dark text-white px-4 py-1 text-xl font-bold capitalize-first-letter"><span>Intra-</span></div>
-                <div class="card-content p-4 text-sm space-y-2">
-                    <div>
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-prefix-dark">Within, inside</p>
+                <div class="card-content p-4 text-sm flex flex-col h-full justify-between">
+                    <!-- Meaning Area: Fixed Height (h-20 = 80px) to ensure example starts consistently -->
+                    <div class="meaning-area h-20">
+                        <p class="text-sm font-medium mb-1">Meaning:</p>
+                        <p class="text-xl font-extrabold text-prefix-dark leading-snug">Within, inside</p>
                     </div>
-                    <div class="pt-2"><span class="font-medium text-prefix-dark">For example,</span> Intraoral (Within the mouth).</div>
+                    
+                    <!-- Example Area: Fixed Height (h-10 = 40px) to reserve 2 lines of space -->
+                    <div class="example-area h-10">
+                        <span class="font-medium text-prefix-dark">For example,</span> Intraoral (Within the mouth).
+                    </div>
                 </div>
             </div>
             
             <!-- Prefix Card 4: Hyper- -->
-            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-prefix-light h-52 flex flex-col" data-part="prefix" data-value="hyper">
+            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-prefix-light h-56 flex flex-col" data-part="prefix" data-value="hyper">
                 <div class="flip-card-header bg-prefix-dark text-white px-4 py-1 text-xl font-bold capitalize-first-letter"><span>Hyper-</span></div>
-                <div class="card-content p-4 text-sm space-y-2">
-                    <div>
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-prefix-dark">Excessive, above normal</p>
+                <div class="card-content p-4 text-sm flex flex-col h-full justify-between">
+                    <!-- Meaning Area: Fixed Height (h-20 = 80px) to ensure example starts consistently -->
+                    <div class="meaning-area h-20">
+                        <p class="text-sm font-medium mb-1">Meaning:</p>
+                        <p class="text-xl font-extrabold text-prefix-dark leading-snug">Excessive, above normal</p>
                     </div>
-                    <div class="pt-2"><span class="font-medium text-prefix-dark">For example,</span> Hyperplasia (Overgrowth of tissue).</div>
+                    
+                    <!-- Example Area: Fixed Height (h-10 = 40px) to reserve 2 lines of space -->
+                    <div class="example-area h-10">
+                        <span class="font-medium text-prefix-dark">For example,</span> Hyperplasia (Overgrowth of tissue).
+                    </div>
                 </div>
             </div>
 
             <!-- Prefix Card 5: Hypo- -->
-            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-prefix-light h-52 flex flex-col" data-part="prefix" data-value="hypo">
+            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-prefix-light h-56 flex flex-col" data-part="prefix" data-value="hypo">
                 <div class="flip-card-header bg-prefix-dark text-white px-4 py-1 text-xl font-bold capitalize-first-letter"><span>Hypo-</span></div>
-                <div class="card-content p-4 text-sm space-y-2">
-                    <div>
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-prefix-dark">Below normal, deficient</p>
+                <div class="card-content p-4 text-sm flex flex-col h-full justify-between">
+                    <!-- Meaning Area: Fixed Height (h-20 = 80px) to ensure example starts consistently -->
+                    <div class="meaning-area h-20">
+                        <p class="text-sm font-medium mb-1">Meaning:</p>
+                        <p class="text-xl font-extrabold text-prefix-dark leading-snug">Below normal, deficient</p>
                     </div>
-                    <div class="pt-2"><span class="font-medium text-prefix-dark">For example,</span> Hypocalcification (Insufficient calcium in enamel).</div>
+                    
+                    <!-- Example Area: Fixed Height (h-10 = 40px) to reserve 2 lines of space -->
+                    <div class="example-area h-10">
+                        <span class="font-medium text-prefix-dark">For example,</span> Hypocalcification (Insufficient calcium in enamel).
+                    </div>
                 </div>
             </div>
 
             <!-- Prefix Card 6: Dys- -->
-            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-prefix-light h-52 flex flex-col" data-part="prefix" data-value="dys">
+            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-prefix-light h-56 flex flex-col" data-part="prefix" data-value="dys">
                 <div class="flip-card-header bg-prefix-dark text-white px-4 py-1 text-xl font-bold capitalize-first-letter"><span>Dys-</span></div>
-                <div class="card-content p-4 text-sm space-y-2">
-                    <div>
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-prefix-dark">Difficult, abnormal</p>
+                <div class="card-content p-4 text-sm flex flex-col h-full justify-between">
+                    <!-- Meaning Area: Fixed Height (h-20 = 80px) to ensure example starts consistently -->
+                    <div class="meaning-area h-20">
+                        <p class="text-sm font-medium mb-1">Meaning:</p>
+                        <p class="text-xl font-extrabold text-prefix-dark leading-snug">Difficult, abnormal</p>
                     </div>
-                    <div class="pt-2"><span class="font-medium text-prefix-dark">For example,</span> Dysphagia (Difficulty swallowing).</div>
+                    
+                    <!-- Example Area: Fixed Height (h-10 = 40px) to reserve 2 lines of space -->
+                    <div class="example-area h-10">
+                        <span class="font-medium text-prefix-dark">For example,</span> Dysphagia (Difficulty swallowing).
+                    </div>
                 </div>
             </div>
             
             <!-- Prefix Card 7: Para- -->
-            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-prefix-light h-52 flex flex-col" data-part="prefix" data-value="para">
+            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-prefix-light h-56 flex flex-col" data-part="prefix" data-value="para">
                 <div class="flip-card-header bg-prefix-dark text-white px-4 py-1 text-xl font-bold capitalize-first-letter"><span>Para-</span></div>
-                <div class="card-content p-4 text-sm space-y-2">
-                    <div>
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-prefix-dark">Beside, near</p>
+                <div class="card-content p-4 text-sm flex flex-col h-full justify-between">
+                    <!-- Meaning Area: Fixed Height (h-20 = 80px) to ensure example starts consistently -->
+                    <div class="meaning-area h-20">
+                        <p class="text-sm font-medium mb-1">Meaning:</p>
+                        <p class="text-xl font-extrabold text-prefix-dark leading-snug">Beside, near</p>
                     </div>
-                    <div class="pt-2"><span class="font-medium text-prefix-dark">For example,</span> Parotid (Near the ear - salivary gland region).</div>
+                    
+                    <!-- Example Area: Fixed Height (h-10 = 40px) to reserve 2 lines of space -->
+                    <div class="example-area h-10">
+                        <span class="font-medium text-prefix-dark">For example,</span> Parotid (Near the ear - salivary gland region).
+                    </div>
                 </div>
             </div>
             
             <!-- Prefix Card 8: Brady- (NEW) -->
-            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-prefix-light h-52 flex flex-col" data-part="prefix" data-value="brady">
+            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-prefix-light h-56 flex flex-col" data-part="prefix" data-value="brady">
                 <div class="flip-card-header bg-prefix-dark text-white px-4 py-1 text-xl font-bold capitalize-first-letter"><span>Brady-</span></div>
-                <div class="card-content p-4 text-sm space-y-2">
-                    <div>
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-prefix-dark">Slow</p>
+                <div class="card-content p-4 text-sm flex flex-col h-full justify-between">
+                    <!-- Meaning Area: Fixed Height (h-20 = 80px) to ensure example starts consistently -->
+                    <div class="meaning-area h-20">
+                        <p class="text-sm font-medium mb-1">Meaning:</p>
+                        <p class="text-xl font-extrabold text-prefix-dark leading-snug">Slow</p>
                     </div>
-                    <div class="pt-2"><span class="font-medium text-prefix-dark">For example,</span> Bradycardia (Slow heart rate).</div>
+                    
+                    <!-- Example Area: Fixed Height (h-10 = 40px) to reserve 2 lines of space -->
+                    <div class="example-area h-10">
+                        <span class="font-medium text-prefix-dark">For example,</span> Bradycardia (Slow heart rate).
+                    </div>
                 </div>
             </div>
 
             <!-- Prefix Card 9: Tachy- (NEW) -->
-            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-prefix-light h-52 flex flex-col" data-part="prefix" data-value="tachy">
+            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-prefix-light h-56 flex flex-col" data-part="prefix" data-value="tachy">
                 <div class="flip-card-header bg-prefix-dark text-white px-4 py-1 text-xl font-bold capitalize-first-letter"><span>Tachy-</span></div>
-                <div class="card-content p-4 text-sm space-y-2">
-                    <div>
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-prefix-dark">Fast</p>
+                <div class="card-content p-4 text-sm flex flex-col h-full justify-between">
+                    <!-- Meaning Area: Fixed Height (h-20 = 80px) to ensure example starts consistently -->
+                    <div class="meaning-area h-20">
+                        <p class="text-sm font-medium mb-1">Meaning:</p>
+                        <p class="text-xl font-extrabold text-prefix-dark leading-snug">Fast</p>
                     </div>
-                    <div class="pt-2"><span class="font-medium text-prefix-dark">For example,</span> Tachypnoea (Rapid breathing).</div>
+                    
+                    <!-- Example Area: Fixed Height (h-10 = 40px) to reserve 2 lines of space -->
+                    <div class="example-area h-10">
+                        <span class="font-medium text-prefix-dark">For example,</span> Tachypnoea (Rapid breathing).
+                    </div>
                 </div>
             </div>
-            
+
             <!-- Prefix Card 10: Hemi- (NEW) -->
-            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-prefix-light h-52 flex flex-col" data-part="prefix" data-value="hemi">
+            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-prefix-light h-56 flex flex-col" data-part="prefix" data-value="hemi">
                 <div class="flip-card-header bg-prefix-dark text-white px-4 py-1 text-xl font-bold capitalize-first-letter"><span>Hemi-</span></div>
-                <div class="card-content p-4 text-sm space-y-2">
-                    <div>
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-prefix-dark">Half</p>
+                <div class="card-content p-4 text-sm flex flex-col h-full justify-between">
+                    <!-- Meaning Area: Fixed Height (h-20 = 80px) to ensure example starts consistently -->
+                    <div class="meaning-area h-20">
+                        <p class="text-sm font-medium mb-1">Meaning:</p>
+                        <p class="text-xl font-extrabold text-prefix-dark leading-snug">Half</p>
                     </div>
-                    <div class="pt-2"><span class="font-medium text-prefix-dark">For example,</span> Hemiplegia (Paralysis of one side).</div>
+                    
+                    <!-- Example Area: Fixed Height (h-10 = 40px) to reserve 2 lines of space -->
+                    <div class="example-area h-10">
+                        <span class="font-medium text-prefix-dark">For example,</span> Hemiplegia (Paralysis of one side).
+                    </div>
                 </div>
             </div>
 
             <!-- Prefix Card 11: Poly- (NEW) -->
-            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-prefix-light h-52 flex flex-col" data-part="prefix" data-value="poly">
+            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-prefix-light h-56 flex flex-col" data-part="prefix" data-value="poly">
                 <div class="flip-card-header bg-prefix-dark text-white px-4 py-1 text-xl font-bold capitalize-first-letter"><span>Poly-</span></div>
-                <div class="card-content p-4 text-sm space-y-2">
-                    <div>
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-prefix-dark">Many / much</p>
+                <div class="card-content p-4 text-sm flex flex-col h-full justify-between">
+                    <!-- Meaning Area: Fixed Height (h-20 = 80px) to ensure example starts consistently -->
+                    <div class="meaning-area h-20">
+                        <p class="text-sm font-medium mb-1">Meaning:</p>
+                        <p class="text-xl font-extrabold text-prefix-dark leading-snug">Many / much</p>
                     </div>
-                    <div class="pt-2"><span class="font-medium text-prefix-dark">For example,</span> Polyuria (Excessive urination).</div>
+                    
+                    <!-- Example Area: Fixed Height (h-10 = 40px) to reserve 2 lines of space -->
+                    <div class="example-area h-10">
+                        <span class="font-medium text-prefix-dark">For example,</span> Polyuria (Excessive urination).
+                    </div>
                 </div>
             </div>
 
@@ -244,208 +312,316 @@
             <!-- PREFIXES (Purple Theme) - END -->
 
 
-            <!-- ROOTS (Teal Theme) -->
+            <!-- ROOT WORDS (Soft Green Theme) -->
 
             <!-- Root Card 1: gingiv- -->
-            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-root-light h-52 flex flex-col" data-part="root" data-value="gingiv">
+            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-root-light h-56 flex flex-col" data-part="root" data-value="gingiv">
                 <div class="flip-card-header bg-root-dark text-white px-4 py-1 text-xl font-bold capitalize-first-letter"><span>gingiv-</span></div>
-                <div class="card-content p-4 text-sm space-y-2">
-                    <div>
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-root-dark">Gums</p>
+                <div class="card-content p-4 text-sm flex flex-col h-full justify-between">
+                    <!-- Meaning Area: Fixed Height (h-20 = 80px) to ensure example starts consistently -->
+                    <div class="meaning-area h-20">
+                        <p class="text-sm font-medium mb-1">Meaning:</p>
+                        <p class="text-xl font-extrabold text-root-dark leading-snug">Gums</p>
                     </div>
-                    <div class="pt-2"><span class="font-medium text-root-dark">For example,</span> Gingivitis is inflammation of the gums.</div>
+                    
+                    <!-- Example Area: Fixed Height (h-10 = 40px) to reserve 2 lines of space -->
+                    <div class="example-area h-10">
+                        <span class="font-medium text-root-dark">For example,</span> Gingivitis is inflammation of the gums.
+                    </div>
                 </div>
             </div>
 
             <!-- Root Card 2: odont- -->
-            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-root-light h-52 flex flex-col" data-part="root" data-value="odont">
+            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-root-light h-56 flex flex-col" data-part="root" data-value="odont">
                 <div class="flip-card-header bg-root-dark text-white px-4 py-1 text-xl font-bold capitalize-first-letter"><span>odont-</span></div>
-                <div class="card-content p-4 text-sm space-y-2">
-                    <div>
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-root-dark">Tooth</p>
+                <div class="card-content p-4 text-sm flex flex-col h-full justify-between">
+                    <!-- Meaning Area: Fixed Height (h-20 = 80px) to ensure example starts consistently -->
+                    <div class="meaning-area h-20">
+                        <p class="text-sm font-medium mb-1">Meaning:</p>
+                        <p class="text-xl font-extrabold text-root-dark leading-snug">Tooth</p>
                     </div>
-                    <div class="pt-2"><span class="font-medium text-root-dark">For example,</span> Odontology is the study of teeth.</div>
+                    
+                    <!-- Example Area: Fixed Height (h-10 = 40px) to reserve 2 lines of space -->
+                    <div class="example-area h-10">
+                        <span class="font-medium text-root-dark">For example,</span> Odontology is the study of teeth.
+                    </div>
                 </div>
             </div>
 
             <!-- Root Card 3: amel- -->
-            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-root-light h-52 flex flex-col" data-part="root" data-value="amel">
+            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-root-light h-56 flex flex-col" data-part="root" data-value="amel">
                 <div class="flip-card-header bg-root-dark text-white px-4 py-1 text-xl font-bold capitalize-first-letter"><span>amel-</span></div>
-                <div class="card-content p-4 text-sm space-y-2">
-                    <div>
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-root-dark">Enamel</p>
+                <div class="card-content p-4 text-sm flex flex-col h-full justify-between">
+                    <!-- Meaning Area: Fixed Height (h-20 = 80px) to ensure example starts consistently -->
+                    <div class="meaning-area h-20">
+                        <p class="text-sm font-medium mb-1">Meaning:</p>
+                        <p class="text-xl font-extrabold text-root-dark leading-snug">Enamel</p>
                     </div>
-                    <div class="pt-2"><span class="font-medium text-root-dark">For example,</span> Amelogenesis is the formation of enamel.</div>
+                    
+                    <!-- Example Area: Fixed Height (h-10 = 40px) to reserve 2 lines of space -->
+                    <div class="example-area h-10">
+                        <span class="font-medium text-root-dark">For example,</span> Amelogenesis is the formation of enamel.
+                    </div>
                 </div>
             </div>
 
             <!-- Root Card 4: cardi- -->
-            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-root-light h-52 flex flex-col" data-part="root" data-value="cardi">
+            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-root-light h-56 flex flex-col" data-part="root" data-value="cardi">
                 <div class="flip-card-header bg-root-dark text-white px-4 py-1 text-xl font-bold capitalize-first-letter"><span>cardi-</span></div>
-                <div class="card-content p-4 text-sm space-y-2">
-                    <div>
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-root-dark">Heart</p>
+                <div class="card-content p-4 text-sm flex flex-col h-full justify-between">
+                    <!-- Meaning Area: Fixed Height (h-20 = 80px) to ensure example starts consistently -->
+                    <div class="meaning-area h-20">
+                        <p class="text-sm font-medium mb-1">Meaning:</p>
+                        <p class="text-xl font-extrabold text-root-dark leading-snug">Heart</p>
                     </div>
-                    <div class="pt-2"><span class="font-medium text-root-dark">For example,</span> Cardiology is the study of the heart.</div>
+                    
+                    <!-- Example Area: Fixed Height (h-10 = 40px) to reserve 2 lines of space -->
+                    <div class="example-area h-10">
+                        <span class="font-medium text-root-dark">For example,</span> Cardiology is the study of the heart.
+                    </div>
                 </div>
             </div>
             
             <!-- Root Card 5: hem- -->
-            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-root-light h-52 flex flex-col" data-part="root" data-value="hem">
+            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-root-light h-56 flex flex-col" data-part="root" data-value="hem">
                 <div class="flip-card-header bg-root-dark text-white px-4 py-1 text-xl font-bold capitalize-first-letter"><span>hem- / hemat-</span></div>
-                <div class="card-content p-4 text-sm space-y-2">
-                    <div>
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-root-dark">Blood</p>
+                <div class="card-content p-4 text-sm flex flex-col h-full justify-between">
+                    <!-- Meaning Area: Fixed Height (h-20 = 80px) to ensure example starts consistently -->
+                    <div class="meaning-area h-20">
+                        <p class="text-sm font-medium mb-1">Meaning:</p>
+                        <p class="text-xl font-extrabold text-root-dark leading-snug">Blood</p>
                     </div>
-                    <div class="pt-2"><span class="font-medium text-root-dark">For example,</span> Hemostasis is the stoppage of blood flow.</div>
+                    
+                    <!-- Example Area: Fixed Height (h-10 = 40px) to reserve 2 lines of space -->
+                    <div class="example-area h-10">
+                        <span class="font-medium text-root-dark">For example,</span> Hemostasis is the stoppage of blood flow.
+                    </div>
                 </div>
             </div>
 
             <!-- Root Card 6: Derm / Cutane- (NEW) -->
-            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-root-light h-52 flex flex-col" data-part="root" data-value="derm">
+            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-root-light h-56 flex flex-col" data-part="root" data-value="derm">
                 <div class="flip-card-header bg-root-dark text-white px-4 py-1 text-xl font-bold capitalize-first-letter"><span>Derm / Cutane-</span></div>
-                <div class="card-content p-4 text-sm space-y-2">
-                    <div>
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-root-dark">Skin</p>
+                <div class="card-content p-4 text-sm flex flex-col h-full justify-between">
+                    <!-- Meaning Area: Fixed Height (h-20 = 80px) to ensure example starts consistently -->
+                    <div class="meaning-area h-20">
+                        <p class="text-sm font-medium mb-1">Meaning:</p>
+                        <p class="text-xl font-extrabold text-root-dark leading-snug">Skin</p>
                     </div>
-                    <div class="pt-2"><span class="font-medium text-root-dark">For example,</span> Dermatitis (Skin inflammation).</div>
+                    
+                    <!-- Example Area: Fixed Height (h-10 = 40px) to reserve 2 lines of space -->
+                    <div class="example-area h-10">
+                        <span class="font-medium text-root-dark">For example,</span> Dermatitis (Skin inflammation).
+                    </div>
                 </div>
             </div>
 
             <!-- Root Card 7: Hepat- (NEW) -->
-            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-root-light h-52 flex flex-col" data-part="root" data-value="hepat">
+            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-root-light h-56 flex flex-col" data-part="root" data-value="hepat">
                 <div class="flip-card-header bg-root-dark text-white px-4 py-1 text-xl font-bold capitalize-first-letter"><span>Hepat-</span></div>
-                <div class="card-content p-4 text-sm space-y-2">
-                    <div>
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-root-dark">Liver</p>
+                <div class="card-content p-4 text-sm flex flex-col h-full justify-between">
+                    <!-- Meaning Area: Fixed Height (h-20 = 80px) to ensure example starts consistently -->
+                    <div class="meaning-area h-20">
+                        <p class="text-sm font-medium mb-1">Meaning:</p>
+                        <p class="text-xl font-extrabold text-root-dark leading-snug">Liver</p>
                     </div>
-                    <div class="pt-2"><span class="font-medium text-root-dark">For example,</span> Hepatitis (Inflammation of the liver).</div>
+                    
+                    <!-- Example Area: Fixed Height (h-10 = 40px) to reserve 2 lines of space -->
+                    <div class="example-area h-10">
+                        <span class="font-medium text-root-dark">For example,</span> Hepatitis (Inflammation of the liver).
+                    </div>
                 </div>
             </div>
 
-            <!-- Root Card 8: Osteo- (NEW) -->
-            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-root-light h-52 flex flex-col" data-part="root" data-value="osteo">
+            <!-- Root Card 8: Osteo- -->
+            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-root-light h-56 flex flex-col" data-part="root" data-value="osteo">
                 <div class="flip-card-header bg-root-dark text-white px-4 py-1 text-xl font-bold capitalize-first-letter"><span>Osteo-</span></div>
-                <div class="card-content p-4 text-sm space-y-2">
-                    <div>
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-root-dark">Bone</p>
+                <div class="card-content p-4 text-sm flex flex-col h-full justify-between">
+                    <!-- Meaning Area: Fixed Height (h-20 = 80px) to ensure example starts consistently -->
+                    <div class="meaning-area h-20">
+                        <p class="text-sm font-medium mb-1">Meaning:</p>
+                        <p class="text-xl font-extrabold text-root-dark leading-snug">Bone</p>
                     </div>
-                    <div class="pt-2"><span class="font-medium text-root-dark">For example,</span> Osteoporosis (Porous bone condition).</div>
+                    
+                    <!-- Example Area: Fixed Height (h-10 = 40px) to reserve 2 lines of space -->
+                    <div class="example-area h-10">
+                        <span class="font-medium text-root-dark">For example,</span> Osteoporosis (Porous bone condition).
+                    </div>
                 </div>
             </div>
 
             <!-- Root Card 9: My / Myo- (NEW) -->
-            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-root-light h-52 flex flex-col" data-part="root" data-value="myo">
+            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-root-light h-56 flex flex-col" data-part="root" data-value="myo">
                 <div class="flip-card-header bg-root-dark text-white px-4 py-1 text-xl font-bold capitalize-first-letter"><span>My / Myo-</span></div>
-                <div class="card-content p-4 text-sm space-y-2">
-                    <div>
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-root-dark">Muscle</p>
+                <div class="card-content p-4 text-sm flex flex-col h-full justify-between">
+                    <!-- Meaning Area: Fixed Height (h-20 = 80px) to ensure example starts consistently -->
+                    <div class="meaning-area h-20">
+                        <p class="text-sm font-medium mb-1">Meaning:</p>
+                        <p class="text-xl font-extrabold text-root-dark leading-snug">Muscle</p>
                     </div>
-                    <div class="pt-2"><span class="font-medium text-root-dark">For example,</span> Myocardium (Heart muscle).</div>
+                    
+                    <!-- Example Area: Fixed Height (h-10 = 40px) to reserve 2 lines of space -->
+                    <div class="example-area h-10">
+                        <span class="font-medium text-root-dark">For example,</span> Myocardium (Heart muscle).
+                    </div>
                 </div>
             </div>
             
-            <!-- ROOTS (Teal Theme) - END -->
+            <!-- ROOT WORDS (Soft Green Theme) - END -->
 
 
-            <!-- SUFFIXES (Orange Theme) - Updated and Sorted Alphabetically -->
+            <!-- SUFFIXES (Orange Theme) -->
 
-            <!-- Suffix Card 1: -algia / -dynia (Was Card 3) -->
-            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-suffix-light h-52 flex flex-col" data-part="suffix" data-value="algia">
+            <!-- Suffix Card 1: -algia / -dynia -->
+            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-suffix-light h-56 flex flex-col" data-part="suffix" data-value="algia">
                 <div class="flip-card-header bg-suffix-dark text-white px-4 py-1 text-xl font-bold capitalize-first-letter"><span>-Algia / -dynia</span></div>
-                <div class="card-content p-4 text-sm space-y-2">
-                    <div>
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-suffix-dark">Pain</p>
+                <div class="card-content p-4 text-sm flex flex-col h-full justify-between">
+                    <!-- Meaning Area: Fixed Height (h-20 = 80px) to ensure example starts consistently -->
+                    <div class="meaning-area h-20">
+                        <p class="text-sm font-medium mb-1">Meaning:</p>
+                        <p class="text-xl font-extrabold text-suffix-dark leading-snug">Pain</p>
                     </div>
-                    <div class="pt-2"><span class="font-medium text-suffix-dark">For example,</span> Odontalgia (Toothache).</div>
+                    
+                    <!-- Example Area: Fixed Height (h-10 = 40px) to reserve 2 lines of space -->
+                    <div class="example-area h-10">
+                        <span class="font-medium text-suffix-dark">For example,</span> Odontalgia (Toothache).
+                    </div>
                 </div>
             </div>
 
-            <!-- Suffix Card 2: -ectomy (Was Card 2 - UPDATED EXAMPLE) -->
-            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-suffix-light h-52 flex flex-col" data-part="suffix" data-value="ectomy">
+            <!-- Suffix Card 2: -ectomy -->
+            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-suffix-light h-56 flex flex-col" data-part="suffix" data-value="ectomy">
                 <div class="flip-card-header bg-suffix-dark text-white px-4 py-1 text-xl font-bold capitalize-first-letter"><span>-Ectomy</span></div>
-                <div class="card-content p-4 text-sm space-y-2">
-                    <div>
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-suffix-dark">Surgical removal</p>
+                <div class="card-content p-4 text-sm flex flex-col h-full justify-between">
+                    <!-- Meaning Area: Fixed Height (h-20 = 80px) to ensure example starts consistently -->
+                    <div class="meaning-area h-20">
+                        <p class="text-sm font-medium mb-1">Meaning:</p>
+                        <p class="text-xl font-extrabold text-suffix-dark leading-snug">Surgical removal</p>
                     </div>
-                    <div class="pt-2"><span class="font-medium text-suffix-dark">For example,</span> Appendectomy (Removal of the appendix).</div>
+                    
+                    <!-- Example Area: Fixed Height (h-10 = 40px) to reserve 2 lines of space -->
+                    <div class="example-area h-10">
+                        <span class="font-medium text-suffix-dark">For example,</span> Appendectomy (Removal of the appendix).
+                    </div>
                 </div>
             </div>
             
-            <!-- Suffix Card 3: -gram / -graph (Was Card 7) -->
-            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-suffix-light h-52 flex flex-col" data-part="suffix" data-value="gram">
+            <!-- Suffix Card 3: -gram / -graph -->
+            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-suffix-light h-56 flex flex-col" data-part="suffix" data-value="gram">
                 <div class="flip-card-header bg-suffix-dark text-white px-4 py-1 text-xl font-bold capitalize-first-letter"><span>-Gram / -graph</span></div>
-                <div class="card-content p-4 text-sm space-y-2">
-                    <div>
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-suffix-dark">Record / Instrument for Recording</p>
+                <div class="card-content p-4 text-sm flex flex-col h-full justify-between">
+                    <!-- Meaning Area: Fixed Height (h-20 = 80px) to ensure example starts consistently -->
+                    <div class="meaning-area h-20">
+                        <p class="text-sm font-medium mb-1">Meaning:</p>
+                        <p class="text-xl font-extrabold text-suffix-dark leading-snug">Record / Instrument for Recording</p>
                     </div>
-                    <div class="pt-2"><span class="font-medium text-suffix-dark">For example,</span> Radiograph (Image produced by X-rays).</div>
+                    
+                    <!-- Example Area: Fixed Height (h-10 = 40px) to reserve 2 lines of space -->
+                    <div class="example-area h-10">
+                        <span class="font-medium text-suffix-dark">For example,</span> Radiograph (Image produced by X-rays).
+                    </div>
                 </div>
             </div>
 
-            <!-- Suffix Card 4: -itis (Was Card 1) -->
-            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-suffix-light h-52 flex flex-col" data-part="suffix" data-value="itis">
+            <!-- Suffix Card 4: -itis -->
+            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-suffix-light h-56 flex flex-col" data-part="suffix" data-value="itis">
                 <div class="flip-card-header bg-suffix-dark text-white px-4 py-1 text-xl font-bold capitalize-first-letter"><span>-Itis</span></div>
-                <div class="card-content p-4 text-sm space-y-2">
-                    <div>
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-suffix-dark">Inflammation</p>
+                <div class="card-content p-4 text-sm flex flex-col h-full justify-between">
+                    <!-- Meaning Area: Fixed Height (h-20 = 80px) to ensure example starts consistently -->
+                    <div class="meaning-area h-20">
+                        <p class="text-sm font-medium mb-1">Meaning:</p>
+                        <p class="text-xl font-extrabold text-suffix-dark leading-snug">Inflammation</p>
                     </div>
-                    <div class="pt-2"><span class="font-medium text-suffix-dark">For example,</span> Gingivitis (Inflammation of the gums).</div>
+                    
+                    <!-- Example Area: Fixed Height (h-10 = 40px) to reserve 2 lines of space -->
+                    <div class="example-area h-10">
+                        <span class="font-medium text-suffix-dark">For example,</span> Gingivitis (Inflammation of the gums).
+                    </div>
                 </div>
             </div>
             
-            <!-- Suffix Card 5: -logy / -logist (Was Card 6) -->
-            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-suffix-light h-52 flex flex-col" data-part="suffix" data-value="logy">
+            <!-- Suffix Card 5: -logy / -logist -->
+            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-suffix-light h-56 flex flex-col" data-part="suffix" data-value="logy">
                 <div class="flip-card-header bg-suffix-dark text-white px-4 py-1 text-xl font-bold capitalize-first-letter"><span>-Logy / -logist</span></div>
-                <div class="card-content p-4 text-sm space-y-2">
-                    <div>
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-suffix-dark">Study / Specialist in</p>
+                <div class="card-content p-4 text-sm flex flex-col h-full justify-between">
+                    <!-- Meaning Area: Fixed Height (h-20 = 80px) to ensure example starts consistently -->
+                    <div class="meaning-area h-20">
+                        <p class="text-sm font-medium mb-1">Meaning:</p>
+                        <p class="text-xl font-extrabold text-suffix-dark leading-snug">Study / Specialist in</p>
                     </div>
-                    <div class="pt-2"><span class="font-medium text-suffix-dark">For example,</span> Periodontologist (Specialist in gum diseases).</div>
+                    
+                    <!-- Example Area: Fixed Height (h-10 = 40px) to reserve 2 lines of space -->
+                    <div class="example-area h-10">
+                        <span class="font-medium text-suffix-dark">For example,</span> Periodontologist (Specialist in gum diseases).
+                    </div>
                 </div>
             </div>
             
-            <!-- Suffix Card 6: -oma (NEW) -->
-            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-suffix-light h-52 flex flex-col" data-part="suffix" data-value="oma">
+            <!-- Suffix Card 6: -oma -->
+            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-suffix-light h-56 flex flex-col" data-part="suffix" data-value="oma">
                 <div class="flip-card-header bg-suffix-dark text-white px-4 py-1 text-xl font-bold capitalize-first-letter"><span>-Oma</span></div>
-                <div class="card-content p-4 text-sm space-y-2">
-                    <div>
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-suffix-dark">Tumour / growth</p>
+                <div class="card-content p-4 text-sm flex flex-col h-full justify-between">
+                    <!-- Meaning Area: Fixed Height (h-20 = 80px) to ensure example starts consistently -->
+                    <div class="meaning-area h-20">
+                        <p class="text-sm font-medium mb-1">Meaning:</p>
+                        <p class="text-xl font-extrabold text-suffix-dark leading-snug">Tumour / growth</p>
                     </div>
-                    <div class="pt-2"><span class="font-medium text-suffix-dark">For example,</span> Carcinoma (A cancerous growth).</div>
+                    
+                    <!-- Example Area: Fixed Height (h-10 = 40px) to reserve 2 lines of space -->
+                    <div class="example-area h-10">
+                        <span class="font-medium text-suffix-dark">For example,</span> Carcinoma (A cancerous growth).
+                    </div>
                 </div>
             </div>
 
-            <!-- Suffix Card 7: -osis (Was Card 4) -->
-            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-suffix-light h-52 flex flex-col" data-part="suffix" data-value="osis">
+            <!-- Suffix Card 7: -osis -->
+            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-suffix-light h-56 flex flex-col" data-part="suffix" data-value="osis">
                 <div class="flip-card-header bg-suffix-dark text-white px-4 py-1 text-xl font-bold capitalize-first-letter"><span>-Osis</span></div>
-                <div class="card-content p-4 text-sm space-y-2">
-                    <div>
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-suffix-dark">Condition, usually abnormal</p>
+                <div class="card-content p-4 text-sm flex flex-col h-full justify-between">
+                    <!-- Meaning Area: Fixed Height (h-20 = 80px) to ensure example starts consistently -->
+                    <div class="meaning-area h-20">
+                        <p class="text-sm font-medium mb-1">Meaning:</p>
+                        <p class="text-xl font-extrabold text-suffix-dark leading-snug">Condition, usually abnormal</p>
                     </div>
-                    <div class="pt-2"><span class="font-medium text-suffix-dark">For example,</span> Halitosis (Bad breath condition).</div>
+                    
+                    <!-- Example Area: Fixed Height (h-10 = 40px) to reserve 2 lines of space -->
+                    <div class="example-area h-10">
+                        <span class="font-medium text-suffix-dark">For example,</span> Halitosis (Bad breath condition).
+                    </div>
                 </div>
             </div>
             
-            <!-- Suffix Card 8: -pathy (NEW) -->
-            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-suffix-light h-52 flex flex-col" data-part="suffix" data-value="pathy">
+            <!-- Suffix Card 8: -pathy -->
+            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-suffix-light h-56 flex flex-col" data-part="suffix" data-value="pathy">
                 <div class="flip-card-header bg-suffix-dark text-white px-4 py-1 text-xl font-bold capitalize-first-letter"><span>-Pathy</span></div>
-                <div class="card-content p-4 text-sm space-y-2">
-                    <div>
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-suffix-dark">Disease</p>
+                <div class="card-content p-4 text-sm flex flex-col h-full justify-between">
+                    <!-- Meaning Area: Fixed Height (h-20 = 80px) to ensure example starts consistently -->
+                    <div class="meaning-area h-20">
+                        <p class="text-sm font-medium mb-1">Meaning:</p>
+                        <p class="text-xl font-extrabold text-suffix-dark leading-snug">Disease</p>
                     </div>
-                    <div class="pt-2"><span class="font-medium text-suffix-dark">For example,</span> Neuropathy (Nerve disease).</div>
+                    
+                    <!-- Example Area: Fixed Height (h-10 = 40px) to reserve 2 lines of space -->
+                    <div class="example-area h-10">
+                        <span class="font-medium text-suffix-dark">For example,</span> Neuropathy (Nerve disease).
+                    </div>
                 </div>
             </div>
 
-            <!-- Suffix Card 9: -plasty (Was Card 5) -->
-            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-suffix-light h-52 flex flex-col" data-part="suffix" data-value="plasty">
+            <!-- Suffix Card 9: -plasty -->
+            <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-suffix-light h-56 flex flex-col" data-part="suffix" data-value="plasty">
                 <div class="flip-card-header bg-suffix-dark text-white px-4 py-1 text-xl font-bold capitalize-first-letter"><span>-Plasty</span></div>
-                <div class="card-content p-4 text-sm space-y-2">
-                    <div>
-                        <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-suffix-dark">Surgical repair, reshaping</p>
+                <div class="card-content p-4 text-sm flex flex-col h-full justify-between">
+                    <!-- Meaning Area: Fixed Height (h-20 = 80px) to ensure example starts consistently -->
+                    <div class="meaning-area h-20">
+                        <p class="text-sm font-medium mb-1">Meaning:</p>
+                        <p class="text-xl font-extrabold text-suffix-dark leading-snug">Surgical repair, reshaping</p>
                     </div>
-                    <div class="pt-2"><span class="font-medium text-suffix-dark">For example,</span> Gingivoplasty (Reshaping of gum tissue).</div>
+                    
+                    <!-- Example Area: Fixed Height (h-10 = 40px) to reserve 2 lines of space -->
+                    <div class="example-area h-10">
+                        <span class="font-medium text-suffix-dark">For example,</span> Gingivoplasty (Reshaping of gum tissue).
+                    </div>
                 </div>
             </div>
             
