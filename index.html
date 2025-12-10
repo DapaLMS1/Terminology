@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Building Blocks of Medical Language - Word Builder</title>
+    <title>The Building Blocks of Medical Language - Flashcard System</title>
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -19,14 +19,11 @@
                         'group-c-dark': '#3E619C', // Deep Blue - Deficiency/Condition (Hypo-, Amel-, -osis)
                         'group-c-light': '#DCE4F3',
                         
-                        // Default fallback colors (based on original purple/green)
+                        // Default fallback colors
                         'default-dark': '#553787',
                         'default-light': '#D8D1E6',
                         
                         'column-background': '#F2F2F2',
-                        'drop-zone': '#E0E0E0',
-                        'success-bg': '#D1FAE5',
-                        'success-text': '#065F46',
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
@@ -36,17 +33,15 @@
         }
     </script>
     <style>
-        /* Base styles for the card to ensure it looks right */
+        /* Base styles for the card */
         .interactive-card {
             transition: transform 0.2s, box-shadow 0.2s;
-            cursor: grab; /* Set to grab for drag-and-drop */
+            cursor: default; /* No interaction needed */
             display: flex;
             flex-direction: column;
-            /* Make sure card is draggable */
-            user-select: none;
-            -webkit-user-select: none;
-            -moz-user-select: none;
+            user-select: text;
         }
+        /* Keep the hover effect for visual appeal, even if not interactive */
         .interactive-card:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
@@ -55,30 +50,7 @@
             flex-grow: 1;
             overflow-y: auto; 
         }
-        .drop-zone-placeholder {
-            min-height: 8rem; /* Enough height for a card to look right */
-            line-height: 8rem;
-        }
-        /* Style for cards when they are in the drop zone */
-        .card-in-drop-zone {
-            height: 9rem; /* Slightly smaller for the slot */
-        }
-        /* Style for the card being dragged */
-        .interactive-card.is-dragging {
-            opacity: 0.5;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-        }
-
-        /* NEW: Visual placeholder for reordering within columns */
-        .drag-placeholder {
-            background-color: #d1d5db; /* Gray-300 */
-            border: 2px dashed #9ca3af; /* Gray-400 */
-            border-radius: 0.75rem; /* rounded-xl */
-            height: 12rem; /* Matches card height + spacing */
-            margin-bottom: 1.5rem; /* Matches space-y-6 */
-            opacity: 0.7;
-            transition: all 0.2s ease-in-out;
-        }
+        /* Removed min-height from definition-box as it's now in the header */
     </style>
 </head>
 <body class="bg-white min-h-screen p-4 md:p-8 font-sans">
@@ -87,56 +59,58 @@
         <!-- Header Section -->
         <header class="mb-8 p-6">
             <h1 class="text-3xl md:text-4xl font-extrabold text-gray-800">
-                The Building Blocks of Medical Language - Word Builder
+                The Building Blocks of Medical Language
             </h1>
             <p class="mt-3 text-lg text-gray-600">
-                Drag one card from each column below into the slots to build and define a new medical term.
+                Medical terms are built from three main elements: a <strong>Prefix</strong>, a <strong>Root Word</strong>, and a <strong>Suffix</strong>. Understanding these parts is the key to quickly defining any complex medical term.
             </p>
-        </header>
+            
+            <!-- Expanded Definitions moved here for prominence -->
+            <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-gray-100 rounded-xl shadow-inner">
+                
+                <!-- Definition: Prefix -->
+                <div class="p-3 bg-white rounded-lg border-t-4 border-default-dark shadow-md">
+                    <h3 class="text-lg font-bold text-default-dark mb-1">1. Prefix (The Beginning)</h3>
+                    <p class="text-sm">
+                        It modifies the root word to indicate <strong>location</strong> (like Sub- for below), <strong>time</strong> (like Pre- for before), <strong>intensity</strong> (like Hyper- for excessive), or <strong>number</strong>. Not all medical terms have a prefix.
+                    </p>
+                </div>
 
-        <!-- Word Builder Drop Zone -->
-        <div id="word-builder" class="mb-10 p-6 bg-gray-50 rounded-xl shadow-inner border border-gray-200">
-            <div class="flex justify-between items-center mb-4">
-                <h2 class="text-2xl font-bold text-gray-700">Construct Your Term:</h2>
-                <button id="reset-button" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-colors disabled:opacity-50" disabled>
-                    Reset Builder
-                </button>
+                <!-- Definition: Root Word -->
+                <div class="p-3 bg-white rounded-lg border-t-4 border-default-dark shadow-md">
+                    <h3 class="text-lg font-bold text-default-dark mb-1">2. Root Word (The Foundation)</h3>
+                    <p class="text-sm">
+                        This part provides the fundamental meaning and typically refers to a specific <strong>body part</strong> (like Gingiv- for gums), <strong>structure</strong>, or <strong>bodily system</strong> (like Cardi- for heart). It is mandatory in almost all complex medical terms.
+                    </p>
+                </div>
+
+                <!-- Definition: Suffix -->
+                <div class="p-3 bg-white rounded-lg border-t-4 border-default-dark shadow-md">
+                    <h3 class="text-lg font-bold text-default-dark mb-1">3. Suffix (The Ending)</h3>
+                    <p class="text-sm">
+                        This element determines what the entire term is describing, usually a <strong>procedure</strong> (like -ectomy for removal), a <strong>condition</strong> (like -itis for inflammation), or a <strong>disease</strong> (like -osis for abnormal state).
+                    </p>
+                </div>
             </div>
             
-            <div id="drop-targets" class="grid grid-cols-3 gap-4">
-                <!-- Prefix Drop Zone -->
-                <div id="drop-prefix" data-part="prefix" class="drop-zone-placeholder text-center text-gray-500 border-4 border-dashed border-gray-300 rounded-xl bg-drop-zone transition-colors flex items-center justify-center p-2">
-                    <span class="text-lg font-semibold">Prefix Slot</span>
-                </div>
-                <!-- Root Drop Zone -->
-                <div id="drop-root" data-part="root" class="drop-zone-placeholder text-center text-gray-500 border-4 border-dashed border-gray-300 rounded-xl bg-drop-zone transition-colors flex items-center justify-center p-2">
-                    <span class="text-lg font-semibold">Root Word Slot</span>
-                </div>
-                <!-- Suffix Drop Zone -->
-                <div id="drop-suffix" data-part="suffix" class="drop-zone-placeholder text-center text-gray-500 border-4 border-dashed border-gray-300 rounded-xl bg-drop-zone transition-colors flex items-center justify-center p-2">
-                    <span class="text-lg font-semibold">Suffix Slot</span>
-                </div>
+            <!-- Example Box remains but now references the new structure -->
+            <div class="mt-4 p-4 bg-yellow-50 rounded-lg border-l-4 border-yellow-500 text-yellow-800 font-medium">
+                
+                <p class="mt-2 text-sm">Example: <strong>Peri-odont-itis</strong> = (Around) + (Tooth/Gums) + (Inflammation).</p>
             </div>
-
-            <!-- Result Area -->
-            <div id="result-area" class="mt-6 p-4 rounded-xl text-center shadow-lg min-h-[5rem] flex items-center justify-center bg-white border border-gray-300">
-                <p class="text-gray-500 italic">Drag cards into the slots above to form a word.</p>
-            </div>
-        </div>
+        </header>
 
         <!-- Main Content Grid (3 Columns) -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
             <!-- Column 1: Prefix -->
             <div id="column-prefix" class="column-container space-y-6 bg-column-background p-4 rounded-xl shadow-lg" data-part="prefix">
-                <h2 class="text-2xl font-bold text-gray-700 pb-2 border-b-2 border-gray-400">Prefix</h2>
-                <div class="text-gray-600 mb-4 p-3 bg-white rounded-xl shadow-sm">
-                    <p class="text-sm italic">Appears at the beginning, describes location, time, number, or intensity.</p>
-                </div>
+                <h2 class="text-2xl font-bold text-gray-700 pb-2 border-b-2 border-default-dark">Prefix Components</h2>
+                
+                <!-- Removed: Expanded Definition for Prefix (now in header) -->
 
-                <!-- Cards (Added data-part and data-value attributes) -->
                 <!-- Card 1: Hypo- (DEFAULT - Position) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" draggable="true" data-part="prefix" data-value="Hypo-" data-original-column="column-prefix">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="prefix" data-value="Hypo-">
                     <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-xl font-bold"><span>Hypo-</span></div>
                     <div class="card-content p-4 text-sm space-y-2">
                         <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-default-dark">Under</p>
@@ -145,7 +119,7 @@
                 </div>
 
                 <!-- Card 2: Pre- (DEFAULT - Time) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" draggable="true" data-part="prefix" data-value="Pre-" data-original-column="column-prefix">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="prefix" data-value="Pre-">
                     <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-xl font-bold"><span>Pre-</span></div>
                     <div class="card-content p-4 text-sm space-y-2">
                          <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-default-dark">Before</p>
@@ -154,7 +128,7 @@
                 </div>
 
                 <!-- Card 3: Peri- (GROUP B - Surgical/Around) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" draggable="true" data-part="prefix" data-value="Peri-" data-original-column="column-prefix">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="prefix" data-value="Peri-">
                     <div class="flip-card-header bg-group-b-dark text-white px-4 py-1 text-xl font-bold"><span>Peri-</span></div>
                     <div class="card-content p-4 text-sm space-y-2">
                         <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-group-b-dark">Around</p>
@@ -163,7 +137,7 @@
                 </div>
                 
                 <!-- Card 4: Sub- (GROUP A - Inflammation/Gums) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" draggable="true" data-part="prefix" data-value="Sub-" data-original-column="column-prefix">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="prefix" data-value="Sub-">
                     <div class="flip-card-header bg-group-a-dark text-white px-4 py-1 text-xl font-bold"><span>Sub-</span></div>
                     <div class="card-content p-4 text-sm space-y-2">
                         <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-group-a-dark">Below</p>
@@ -172,7 +146,7 @@
                 </div>
 
                 <!-- Card 5: Intra- (DEFAULT - Position) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" draggable="true" data-part="prefix" data-value="Intra-" data-original-column="column-prefix">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="prefix" data-value="Intra-">
                     <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-xl font-bold"><span>Intra-</span></div>
                     <div class="card-content p-4 text-sm space-y-2">
                         <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-default-dark">Within</p>
@@ -181,7 +155,7 @@
                 </div>
 
                 <!-- Card 6: Hyper- (DEFAULT - Intensity) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" draggable="true" data-part="prefix" data-value="Hyper-" data-original-column="column-prefix">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="prefix" data-value="Hyper-">
                     <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-xl font-bold"><span>Hyper-</span></div>
                     <div class="card-content p-4 text-sm space-y-2">
                         <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-default-dark">Excessive</p>
@@ -190,7 +164,7 @@
                 </div>
                 
                 <!-- Card 7: Hypo- (GROUP C - Deficiency/Condition) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" draggable="true" data-part="prefix" data-value="Hypo-" data-original-column="column-prefix">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="prefix" data-value="Hypo-">
                     <div class="flip-card-header bg-group-c-dark text-white px-4 py-1 text-xl font-bold"><span>Hypo-</span></div>
                     <div class="card-content p-4 text-sm space-y-2">
                          <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-group-c-dark">Deficient</p>
@@ -199,7 +173,7 @@
                 </div>
 
                 <!-- Card 8: Dys- (DEFAULT - Abnormal) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" draggable="true" data-part="prefix" data-value="Dys-" data-original-column="column-prefix">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="prefix" data-value="Dys-">
                     <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-xl font-bold"><span>Dys-</span></div>
                     <div class="card-content p-4 text-sm space-y-2">
                         <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-default-dark">Abnormal</p>
@@ -208,7 +182,7 @@
                 </div>
 
                 <!-- Card 9: Para- (DEFAULT - Position) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" draggable="true" data-part="prefix" data-value="Para-" data-original-column="column-prefix">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="prefix" data-value="Para-">
                     <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-xl font-bold"><span>Para-</span></div>
                     <div class="card-content p-4 text-sm space-y-2">
                         <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-default-dark">Beside</p>
@@ -219,13 +193,12 @@
 
             <!-- Column 2: Root Word -->
             <div id="column-root" class="column-container space-y-6 bg-column-background p-4 rounded-xl shadow-lg" data-part="root">
-                <h2 class="text-2xl font-bold text-gray-700 pb-2 border-b-2 border-gray-400">Root Word</h2>
-                <div class="text-gray-600 mb-4 p-3 bg-white rounded-xl shadow-sm">
-                    <p class="text-sm italic">The base of the term, usually referring to a body part, structure, or system.</p>
-                </div>
+                <h2 class="text-2xl font-bold text-gray-700 pb-2 border-b-2 border-default-dark">Root Word Components</h2>
+                
+                <!-- Removed: Expanded Definition for Root Word (now in header) -->
 
                 <!-- Root Card 1: Dent- / Odont- (GROUP B - Surgical/Bone) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" draggable="true" data-part="root" data-value="Odont" data-original-column="column-root">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="root" data-value="Odont">
                     <div class="flip-card-header bg-group-b-dark text-white px-4 py-1 text-xl font-bold"><span>Dent- / Odont-</span></div>
                     <div class="card-content p-4 text-sm space-y-2">
                         <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-group-b-dark">Tooth</p>
@@ -234,7 +207,7 @@
                 </div>
                 
                 <!-- Root Card 2: Gingiv- (GROUP A - Inflammation/Gums) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" draggable="true" data-part="root" data-value="Gingiv" data-original-column="column-root">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="root" data-value="Gingiv">
                     <div class="flip-card-header bg-group-a-dark text-white px-4 py-1 text-xl font-bold"><span>Gingiv-</span></div>
                     <div class="card-content p-4 text-sm space-y-2">
                         <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-group-a-dark">Gums</p>
@@ -243,7 +216,7 @@
                 </div>
                 
                 <!-- Root Card 3: Enamel / Amel- (GROUP C - Deficiency/Condition) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" draggable="true" data-part="root" data-value="Amel" data-original-column="column-root">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="root" data-value="Amel">
                     <div class="flip-card-header bg-group-c-dark text-white px-4 py-1 text-xl font-bold"><span>Enamel / Amel-</span></div>
                     <div class="card-content p-4 text-sm space-y-2">
                         <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-group-c-dark">Enamel</p>
@@ -252,7 +225,7 @@
                 </div>
                 
                 <!-- Root Card 4: Pulp- (DEFAULT - Structure) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" draggable="true" data-part="root" data-value="Pulp" data-original-column="column-root">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="root" data-value="Pulp">
                     <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-xl font-bold"><span>Pulp-</span></div>
                     <div class="card-content p-4 text-sm space-y-2">
                         <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-default-dark">Dental pulp</p>
@@ -261,7 +234,7 @@
                 </div>
                 
                 <!-- Root Card 5: Alveol- (DEFAULT - Structure) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" draggable="true" data-part="root" data-value="Alveol" data-original-column="column-root">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="root" data-value="Alveol">
                     <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-xl font-bold"><span>Alveol-</span></div>
                     <div class="card-content p-4 text-sm space-y-2">
                         <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-default-dark">Socket</p>
@@ -270,7 +243,7 @@
                 </div>
                 
                 <!-- Root Card 6: Or- / Stomat- (DEFAULT - Structure) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" draggable="true" data-part="root" data-value="Stomat" data-original-column="column-root">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="root" data-value="Stomat">
                     <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-xl font-bold"><span>Or- / Stomat-</span></div>
                     <div class="card-content p-4 text-sm space-y-2">
                         <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-default-dark">Mouth</p>
@@ -279,7 +252,7 @@
                 </div>
 
                 <!-- Root Card 7: Maxill- / Mandibul- (DEFAULT - Structure) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" draggable="true" data-part="root" data-value="Maxill" data-original-column="column-root">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="root" data-value="Maxill">
                     <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-xl font-bold"><span>Maxill- / Mandibul-</span></div>
                     <div class="card-content p-4 text-sm space-y-2">
                         <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-default-dark">Jaw</p>
@@ -288,7 +261,7 @@
                 </div>
                 
                 <!-- Root Card 8: Cephal- / Cran- (DEFAULT - Structure) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" draggable="true" data-part="root" data-value="Cephal" data-original-column="column-root">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="root" data-value="Cephal">
                     <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-xl font-bold"><span>Cephal- / Cran-</span></div>
                     <div class="card-content p-4 text-sm space-y-2">
                         <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-default-dark">Head / skull</p>
@@ -297,7 +270,7 @@
                 </div>
 
                 <!-- Root Card 9: Cardi- (DEFAULT - System) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" draggable="true" data-part="root" data-value="Cardi" data-original-column="column-root">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="root" data-value="Cardi">
                     <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-xl font-bold"><span>Cardi-</span></div>
                     <div class="card-content p-4 text-sm space-y-2">
                         <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-default-dark">Heart</p>
@@ -308,13 +281,12 @@
 
             <!-- Column 3: Suffix -->
             <div id="column-suffix" class="column-container space-y-6 bg-column-background p-4 rounded-xl shadow-lg" data-part="suffix">
-                <h2 class="text-2xl font-bold text-gray-700 pb-2 border-b-2 border-gray-400">Suffix</h2>
-                <div class="text-gray-600 mb-4 p-3 bg-white rounded-xl shadow-sm">
-                    <p class="text-sm italic">Comes at the end, usually describes a condition, disease, or procedure.</p>
-                </div>
+                <h2 class="text-2xl font-bold text-gray-700 pb-2 border-b-2 border-default-dark">Suffix Components</h2>
+                
+                <!-- Removed: Expanded Definition for Suffix (now in header) -->
 
                 <!-- Suffix Card 1: -itis (GROUP A - Inflammation/Gums) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" draggable="true" data-part="suffix" data-value="itis" data-original-column="column-suffix">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="suffix" data-value="itis">
                     <div class="flip-card-header bg-group-a-dark text-white px-4 py-1 text-xl font-bold"><span>-itis</span></div>
                     <div class="card-content p-4 text-sm space-y-2">
                         <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-group-a-dark">Inflammation</p>
@@ -323,7 +295,7 @@
                 </div>
 
                 <!-- Suffix Card 2: -ectomy (GROUP B - Surgical/Bone) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" draggable="true" data-part="suffix" data-value="ectomy" data-original-column="column-suffix">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="suffix" data-value="ectomy">
                     <div class="flip-card-header bg-group-b-dark text-white px-4 py-1 text-xl font-bold"><span>-ectomy</span></div>
                     <div class="card-content p-4 text-sm space-y-2">
                         <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-group-b-dark">Surgical removal</p>
@@ -332,7 +304,7 @@
                 </div>
 
                  <!-- Suffix Card 3: -algia / -dynia (DEFAULT - Condition) -->
-                 <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" draggable="true" data-part="suffix" data-value="algia" data-original-column="column-suffix">
+                 <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="suffix" data-value="algia">
                     <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-xl font-bold"><span>-algia / -dynia</span></div>
                     <div class="card-content p-4 text-sm space-y-2">
                         <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-default-dark">Pain</p>
@@ -341,7 +313,7 @@
                 </div>
 
                 <!-- Suffix Card 4: -osis (GROUP C - Deficiency/Condition) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" draggable="true" data-part="suffix" data-value="osis" data-original-column="column-suffix">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="suffix" data-value="osis">
                     <div class="flip-card-header bg-group-c-dark text-white px-4 py-1 text-xl font-bold"><span>-osis</span></div>
                     <div class="card-content p-4 text-sm space-y-2">
                         <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-group-c-dark">Condition</p>
@@ -350,7 +322,7 @@
                 </div>
 
                 <!-- Suffix Card 5: -plasty (DEFAULT - Procedure) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" draggable="true" data-part="suffix" data-value="plasty" data-original-column="column-suffix">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="suffix" data-value="plasty">
                     <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-xl font-bold"><span>-plasty</span></div>
                     <div class="card-content p-4 text-sm space-y-2">
                         <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-default-dark">Surgical repair</p>
@@ -359,7 +331,7 @@
                 </div>
 
                 <!-- Suffix Card 6: -logy / -logist (DEFAULT - Study) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" draggable="true" data-part="suffix" data-value="logy" data-original-column="column-suffix">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="suffix" data-value="logy">
                     <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-xl font-bold"><span>-logy / -logist</span></div>
                     <div class="card-content p-4 text-sm space-y-2">
                         <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-default-dark">Study</p>
@@ -368,7 +340,7 @@
                 </div>
 
                 <!-- Suffix Card 7: -gram / -graph (DEFAULT - Procedure) -->
-                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" draggable="true" data-part="suffix" data-value="gram" data-original-column="column-suffix">
+                <div class="interactive-card rounded-xl shadow-md overflow-hidden bg-white h-48" data-part="suffix" data-value="gram">
                     <div class="flip-card-header bg-default-dark text-white px-4 py-1 text-xl font-bold"><span>-gram / -graph</span></div>
                     <div class="card-content p-4 text-sm space-y-2">
                         <p class="text-sm font-medium">Meaning:</p><p class="text-xl font-extrabold text-default-dark">Record</p>
@@ -379,317 +351,5 @@
             </div>
         </div>
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // --- Word Knowledge Base ---
-            const VALID_WORDS = {
-                // Prefix + Root + Suffix
-                "Sub-Gingiv-itis": { name: "Subgingivitis", definition: "Inflammation of the gum tissues located below the gumline." },
-                "Peri-Odont-itis": { name: "Periodontitis", definition: "Severe gum infection that damages the soft tissue and bone supporting the tooth (around the tooth)." },
-                "Hypo-Amel-osis": { name: "Hypo-amelosis", definition: "A condition involving the incomplete development or deficiency of tooth enamel." },
-                // Root + Suffix
-                "Gingiv-itis": { name: "Gingivitis", definition: "Inflammation of the gums, often caused by plaque." },
-                "Odont-ectomy": { name: "Odontectomy", definition: "Surgical removal or excision of a tooth." },
-                "Pulp-itis": { name: "Pulpitis", definition: "Inflammation of the soft dental pulp inside the tooth." },
-                "Stomat-itis": { name: "Stomatitis", definition: "Inflammation of the mucous membrane of the mouth." },
-                "Odont-algia": { name: "Odontalgia", definition: "The medical term for tooth pain or toothache." },
-                "Gingiv-plasty": { name: "Gingivoplasty", definition: "Surgical procedure to reshape or recontour the gum tissue." },
-                "Cardi-logy": { name: "Cardiology", definition: "The study of the heart and its functions in health and disease." },
-                // Prefix + Root (The code checks for three parts first, then cleans up if parts are missing, so these keys reflect that logic)
-                "Intra-Stomat": { name: "Intraoral", definition: "Pertaining to or situated within the mouth." },
-                "Intra-Maxill": { name: "Intramaxillary", definition: "Located or occurring within the upper jawbone (maxilla)." }
-            };
-
-            // --- DOM Elements ---
-            const dropTargets = {
-                prefix: document.getElementById('drop-prefix'),
-                root: document.getElementById('drop-root'),
-                suffix: document.getElementById('drop-suffix'),
-            };
-            const resultArea = document.getElementById('result-area');
-            const resetButton = document.getElementById('reset-button');
-            const columns = document.querySelectorAll('.column-container');
-            
-            // Global class for the placeholder
-            const PLACEHOLDER_CLASS = 'drag-placeholder';
-
-            // --- State Variable ---
-            let draggedElement = null; // Store the reference to the element being dragged
-
-            // --- Utility Functions ---
-
-            // Function to enable or disable the Reset button
-            const updateResetButton = () => {
-                const isBuilderOccupied = Object.values(dropTargets).some(target => target.querySelector('.interactive-card'));
-                resetButton.disabled = !isBuilderOccupied;
-            };
-
-            // Function to find the element the dragged card should be placed after
-            const getDragAfterElement = (container, y) => {
-                // Get all elements in the container that are NOT the one currently being dragged or the placeholder
-                const draggableElements = [...container.querySelectorAll(`.interactive-card:not(.is-dragging):not(.${PLACEHOLDER_CLASS})`)];
-
-                return draggableElements.reduce((closest, child) => {
-                    const box = child.getBoundingClientRect();
-                    // Calculate distance from the center of the child card. 
-                    // Negative offset means the cursor is above the center of the child card.
-                    const offset = y - box.top - box.height / 2; 
-
-                    // We look for the child element where:
-                    // 1. The cursor is above its center (offset < 0)
-                    // 2. It is the closest to the cursor so far (offset > closest.offset)
-                    if (offset < 0 && offset > closest.offset) {
-                        return { offset: offset, element: child };
-                    } else {
-                        return closest;
-                    }
-                }, { offset: -Number.NEGATIVE_INFINITY }).element; // Initialize with a very negative offset
-            };
-
-            // Function to check the assembled word
-            const checkWord = () => {
-                const prefixCard = dropTargets.prefix.querySelector('.interactive-card');
-                const rootCard = dropTargets.root.querySelector('.interactive-card');
-                const suffixCard = dropTargets.suffix.querySelector('.interactive-card');
-
-                const prefixValue = prefixCard ? prefixCard.dataset.value.replace(/-$/, '') : '';
-                const rootValue = rootCard ? rootCard.dataset.value : '';
-                const suffixValue = suffixCard ? suffixCard.dataset.value : '';
-
-                // Build the key using the parts
-                let key = '';
-                if (prefixValue) key += prefixValue + '-';
-                if (rootValue) key += rootValue + '-';
-                if (suffixValue) key += suffixValue;
-                
-                // Clean up the key string (e.g., remove trailing hyphen)
-                key = key.replace(/-$/, '');
-
-                const wordData = VALID_WORDS[key];
-
-                if (!rootValue && !prefixValue && !suffixValue) {
-                     resultArea.innerHTML = '<p class="text-gray-500 italic">Drag cards into the slots above to form a word.</p>';
-                } else if (wordData) {
-                    // Success!
-                    resultArea.innerHTML = `
-                        <div class="bg-success-bg p-4 rounded-lg">
-                            <h3 class="text-2xl font-extrabold text-success-text">${wordData.name}</h3>
-                            <p class="text-base text-success-text mt-2">${wordData.definition}</p>
-                        </div>
-                    `;
-                } else {
-                    // Invalid combination
-                    // Build the attempted word by combining parts without hyphens
-                    const attemptedWord = (prefixValue.replace('-', '') + rootValue + suffixValue).toLowerCase();
-
-                    resultArea.innerHTML = `
-                        <div class="bg-red-100 p-4 rounded-lg">
-                            <h3 class="text-2xl font-bold text-red-700">Attempted Word: ${attemptedWord}</h3>
-                            <p class="text-base text-red-600 mt-2">Not a recognized term. Try a different combination! You need at least a Root, plus a Prefix and/or Suffix for many medical words.</p>
-                        </div>
-                    `;
-                }
-
-                updateResetButton();
-            };
-
-            // Function to reset all cards
-            const resetCards = () => {
-                // Find all cards currently in the drop targets
-                const placedCards = document.querySelectorAll('#drop-targets .interactive-card');
-
-                placedCards.forEach(card => {
-                    const originalColumnId = card.dataset.originalColumn;
-                    const originalColumn = document.getElementById(originalColumnId);
-                    
-                    if (originalColumn) {
-                        // Reset card styling and remove it from the drop zone
-                        card.classList.remove('card-in-drop-zone'); 
-                        
-                        // Append the card back to its original column
-                        originalColumn.appendChild(card);
-                    }
-                });
-
-                // Restore placeholders in drop targets
-                Object.values(dropTargets).forEach(zone => {
-                     zone.innerHTML = `<span class="text-lg font-semibold">${zone.dataset.part.charAt(0).toUpperCase() + zone.dataset.part.slice(1)} Slot</span>`;
-                });
-
-
-                // Reset the result area
-                resultArea.innerHTML = '<p class="text-gray-500 italic">Drag cards into the slots above to form a word.</p>';
-                updateResetButton();
-            };
-
-            // --- Drag and Drop Handlers ---
-
-            // 1. Drag Start
-            document.querySelectorAll('.interactive-card').forEach(card => {
-                card.addEventListener('dragstart', (e) => {
-                    e.dataTransfer.setData('text/plain', 'card'); 
-                    draggedElement = e.target;
-                    e.target.classList.add('is-dragging');
-                    e.dataTransfer.effectAllowed = 'move';
-                });
-
-                card.addEventListener('dragend', (e) => {
-                    draggedElement = null; // Clear the reference
-                    e.target.classList.remove('is-dragging');
-                    // Remove any lingering placeholders after the drag is complete
-                    document.querySelectorAll(`.${PLACEHOLDER_CLASS}`).forEach(p => p.remove());
-                });
-            });
-
-            // 2. Drag Over (Applies to fixed drop slots: prefix, root, suffix)
-            Object.values(dropTargets).forEach(zone => {
-                zone.addEventListener('dragover', (e) => {
-                    e.preventDefault(); // Necessary to allow dropping
-                    
-                    if (!draggedElement) {
-                        e.dataTransfer.dropEffect = 'none';
-                        return;
-                    }
-
-                    const draggingPart = draggedElement.dataset.part;
-                    const targetPart = e.currentTarget.dataset.part;
-                    
-                    // Only allow drops if the dragging card matches the target slot's part type
-                    if (draggingPart === targetPart) {
-                        e.dataTransfer.dropEffect = 'move';
-                        e.currentTarget.classList.add('border-green-500', 'bg-green-50');
-                        e.currentTarget.classList.remove('border-red-500', 'border-gray-300');
-                    } else {
-                        e.dataTransfer.dropEffect = 'none';
-                        e.currentTarget.classList.remove('border-green-500', 'bg-green-50');
-                        e.currentTarget.classList.add('border-red-500', 'border-dashed'); // Re-add dashed border
-                    }
-                });
-
-                zone.addEventListener('dragleave', (e) => {
-                    e.currentTarget.classList.remove('border-green-500', 'bg-green-50', 'border-red-500');
-                    e.currentTarget.classList.add('border-gray-300'); // Restore default border
-                });
-            });
-
-            // 3. Drop Handler for Word Builder Zones (Moving card from column to slot)
-            Object.values(dropTargets).forEach(zone => {
-                zone.addEventListener('drop', (e) => {
-                    e.preventDefault();
-                    e.currentTarget.classList.remove('border-green-500', 'bg-green-50', 'border-red-500');
-                    e.currentTarget.classList.add('border-gray-300'); // Restore default border
-                    
-                    if (!draggedElement) return;
-
-                    const draggingPart = draggedElement.dataset.part;
-                    const targetPart = e.currentTarget.dataset.part;
-
-                    if (draggingPart === targetPart) {
-                        const draggedCard = draggedElement;
-                        
-                        // If there is already a card in the slot, reset it back to its column
-                        const existingCard = zone.querySelector('.interactive-card');
-                        if (existingCard) {
-                            const originalColumnId = existingCard.dataset.originalColumn;
-                            const originalColumn = document.getElementById(originalColumnId);
-                            if (originalColumn) {
-                                // Remove drop zone styling
-                                existingCard.classList.remove('card-in-drop-zone'); 
-                                originalColumn.appendChild(existingCard);
-                            }
-                        }
-
-                        // Place the new card in the drop zone
-                        zone.innerHTML = ''; // Clear placeholder text
-                        draggedCard.classList.remove('is-dragging'); // Clear dragging class
-                        
-                        // Apply drop zone styling
-                        draggedCard.classList.add('card-in-drop-zone'); 
-                        zone.appendChild(draggedCard);
-
-                        // Check the newly formed word
-                        checkWord();
-                    }
-                    draggedElement = null; // Clear the reference after drop
-                });
-            });
-            
-            // 4. Drag Over/Drop Handler for Column Containers (Reordering cards within a column)
-            columns.forEach(column => {
-                column.addEventListener('dragover', e => {
-                    if (!draggedElement) return;
-
-                    const draggingPart = draggedElement.dataset.part;
-                    const columnPart = column.dataset.part;
-
-                    // Only allow dragover if the card being dragged belongs to this column type
-                    if (draggingPart === columnPart) {
-                        e.preventDefault(); // This allows the drop/movement
-                        e.dataTransfer.dropEffect = 'move';
-                        
-                        // 1. Remove any existing placeholder in this column
-                        column.querySelectorAll(`.${PLACEHOLDER_CLASS}`).forEach(p => p.remove());
-
-                        // 2. Determine where to insert the dragged card
-                        const afterElement = getDragAfterElement(column, e.clientY);
-                        
-                        // 3. Create and insert the visual placeholder
-                        const placeholder = document.createElement('div');
-                        placeholder.classList.add(PLACEHOLDER_CLASS);
-                        
-                        if (afterElement == null) {
-                            // If no element is found below, append the placeholder to the end
-                            column.appendChild(placeholder);
-                        } else {
-                            // Insert the placeholder before the determined 'afterElement'
-                            column.insertBefore(placeholder, afterElement);
-                        }
-                    }
-                });
-
-                column.addEventListener('dragleave', e => {
-                    // Check if the drag is leaving the entire column (not just moving over a child element)
-                    if (e.relatedTarget && !column.contains(e.relatedTarget)) {
-                         // Remove placeholder if leaving the column
-                         column.querySelectorAll(`.${PLACEHOLDER_CLASS}`).forEach(p => p.remove());
-                    }
-                });
-
-                // The actual drop to reorder (MODIFIED LOGIC HERE)
-                column.addEventListener('drop', e => {
-                    e.preventDefault();
-                    if (!draggedElement) return;
-
-                    const draggingPart = draggedElement.dataset.part;
-                    const columnPart = column.dataset.part;
-
-                    if (draggingPart === columnPart) {
-                        // 1. Clean up: Remove any remaining placeholder
-                        column.querySelectorAll(`.${PLACEHOLDER_CLASS}`).forEach(p => p.remove());
-
-                        // 2. Recalculate the drop position based on the final drop event location (e.clientY)
-                        const afterElement = getDragAfterElement(column, e.clientY);
-                        
-                        // 3. Insert the actual card at the calculated position
-                        if (afterElement == null) {
-                            // Append to the end
-                            column.appendChild(draggedElement);
-                        } else {
-                            // Insert before the determined 'afterElement'
-                            column.insertBefore(draggedElement, afterElement);
-                        }
-                    }
-                    draggedElement = null;
-                });
-            });
-
-            // 5. Reset Button Listener
-            resetButton.addEventListener('click', resetCards);
-            
-            // 6. Initialize: Ensure the button state is correct on load
-            updateResetButton();
-        });
-    </script>
 </body>
 </html>
